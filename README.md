@@ -4,6 +4,7 @@
 
 Current repository hosts sources of the [Galette docker image](https://hub.docker.com/repository/docker/galette/galette), created and maintained by [Galette Community](https://github.com/galette-community/).
 
+Current repository hosts sources of the [Galette docker image](https://hub.docker.com/repository/docker/galette/galette), created and maintained by [Galette Community](https://github.com/galette-community/).
 
 ## Features
 
@@ -17,9 +18,9 @@ Current repository hosts sources of the [Galette docker image](https://hub.docke
 
 ## How to use this image
 
-### Run manually
+### Run manually
 
-#### First launch
+#### First launch
 
 run your docker container to install to connect Galette to your database server
 
@@ -53,10 +54,16 @@ You're done !
 * and type `cat /var/www/galette/config/config.inc.php` to check your dabatase configuration
 * exit from container console  : `exit`
 
+<<<<<<< HEAD
 ## Using Docker Compose
 An [example of docker-compose.yml](.example/docker-compose.yml) is provided.
+=======
+### Using Docker Compose
+>>>>>>> 0a68f563c86f5110ebea6ec76667c158c44e51eb
 
-#### First launch
+An [example of docker-compose.yml](.example/docker-compose.yml) is provided.
+
+#### First launch
 * copy `docker-compose.yml` example wherever you want in a folder
 * Edit your `docker-compose.yml` **without** a mounted volume (config.inc.php) and launch with `docker-compose up -d`
 * go to localhost:8080 and complete installation (database, etc)
@@ -69,5 +76,11 @@ You're done !
 
 
 ## Reverse proxy
+<<<<<<< HEAD
 ### Nginx
+=======
+
+### Nginx
+
+>>>>>>> 0a68f563c86f5110ebea6ec76667c158c44e51eb
 An [example of reverse proxy configuration for Nginx](.example/nginx/nginx.conf) is provided.
