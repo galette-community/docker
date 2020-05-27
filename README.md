@@ -7,9 +7,13 @@ This is the Git repo of the [Galette docker image](https://hub.docker.com/reposi
 
 ## Features
 
-* Mount volume to keep persistent database settings (*config.inc.php*)
+* mount volume to keep persistent database settings (*config.inc.php*)
+* keep data (images, logs, etc) persistent by mounting volume
 * enabling Log IP addresses behind a proxy (*optional*)
 * custom your CSS (volume)
+* a crontab will run `reminder.php` every day at 8:30am to send reminder mail
+* only webroot is exposed via Apache DocumentRoot and vhost
+* you can use reverse proxy to access Galette by domain or subdomain
 
 ## How to use this image
 
@@ -24,9 +28,6 @@ docker run  -d -p 8080:80 --name galette \
 galette/galette:latest
 ```
 * go to localhost:8080 and complete installation (database, etc)
-* In terminal, connect to container console `docker container exec -ti galette bash`
-* and type `cat /var/www/galette/config/config.inc.php` to check and copy your dabatase configuration
-* exit from container console  : `exit`
 * stop container `docker container stop galette` and remove it `docker container rm galette`
 
 Now your Galette database is created, to have a persistent MySQL/PostgreSQL configuration, you need to mount your `config.inc.php` as a volume
@@ -36,9 +37,21 @@ Now your Galette database is created, to have a persistent MySQL/PostgreSQL conf
 ```
 docker run  -d -p 8080:80 --name galette
 -v  /path/to/config.inc.php:/var/www/galette/config/config.inc.php \
+-v  /path/to/data/attachments:/var/www/galette/data/attachments \
+-v  /path/to/data/cache:/var/www/galette/data/cache \
+-v  /path/to/data/files:/var/www/galette/data/files \
+-v  /path/to/data/logs:/var/www/galette/data/logs \
+-v  /path/to/data/photos:/var/www/galette/data/photos \
+- ./data/templates_c:/var/www/galette/data/templates_c \
 galette/galette:latest
 ```
-* You're done !
+You're done !
+
+
+**N.B.:** You can check `config.inc.php` in container.
+* In terminal, connect to container console `docker container exec -ti galette bash`
+* and type `cat /var/www/galette/config/config.inc.php` to check your dabatase configuration
+* exit from container console  : `exit`
 
 ## Using Docker Compose
 You will find an example of docker-compose.yml here https://github.com/galette-community/docker/.example/docker-compose.yml
@@ -47,9 +60,6 @@ You will find an example of docker-compose.yml here https://github.com/galette-c
 * copy `docker-compose.yml` example wherever you want in a folder
 * Edit your `docker-compose.yml` **without** a mounted volume (config.inc.php) and launch with `docker-compose up -d`
 * go to localhost:8080 and complete installation (database, etc)
-* In terminal, connect to container console `docker container exec -ti galette bash`
-* and type `cat /var/www/galette/config/config.inc.php` to check and copy your dabatase configuration
-* exit from container console : `exit`
 * stop and remove container : `docker-compose down`
 * create a `config.inc.php` file wherever you want containing the configuration copied above
 * edit `docker-compose.yml` and uncomment *volumes* section, make sure that your `/path/to/config.inc.php` is OK

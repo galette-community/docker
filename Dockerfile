@@ -36,6 +36,8 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 ENV GALETTE_VERSION 0.9.3.1
 
 ENV GALETTE_INSTALL /var/www/galette
+ENV GALETTE_DATA /var/www/galette/data
+ENV GALETTE_CONFIG /var/www/galette/config
 ENV GALETTE_WEBROOT /var/www/galette/webroot
 
 # Install Galette
@@ -55,10 +57,6 @@ RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-maps-1.4.0.tar.bz2; r
 RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-paypal-1.7.0.tar.bz2
 RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-paypal-1.7.0.tar.bz2; rm galette-plugin-paypal-1.7.0.tar.bz2
 
-# Chown /var/www/galette
-RUN chown -R www-data:www-data ${GALETTE_INSTALL}
-
-
 # Cron auto-reminder
 ## Copy galette-cron file to the cron.d directory
 COPY galette-cron /etc/cron.d/galette-cron
@@ -69,5 +67,10 @@ RUN chmod 0644 /etc/cron.d/galette-cron
 ## Apply cron job
 RUN crontab /etc/cron.d/galette-cron
 
-# Mount volume
-VOLUME $GALETTE_INSTALL
+# Mount volumes
+VOLUME $GALETTE_DATA
+VOLUME $GALETTE_CONFIG
+
+# Chown /var/www/galette
+RUN chown -R www-data:www-data ${GALETTE_INSTALL}
+RUN chmod -R 0755 ${GALETTE_DATA}

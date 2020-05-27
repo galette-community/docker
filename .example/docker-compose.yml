@@ -7,8 +7,16 @@ services:
     tty: true
     ports:
       - 8080:80
-# Uncomment this line below,to mount volume(s)
-#    volumes:
+    volumes:
+      - ./data/attachments:/var/www/galette/data/attachments
+      - ./data/cache:/var/www/galette/data/cache
+#      - ./data/exports:/var/www/galette/data/exports
+      - ./data/files:/var/www/galette/data/files
+#      - ./data/logs:/var/www/galette/data/logs
+      - ./data/photos:/var/www/galette/data/photos
+#      - ./data/tempimages:/var/www/galette/data/tempimages
+#      - ./data/template_c:/var/www/galette/data/template_c
+      - ./data/templates_c:/var/www/galette/data/templates_c
 # Uncomment this line below, after you have launch once Galette to create database : see file config / config.inc.php
 #      - ./config/config.inc.php:/var/www/galette/config/config.inc.php
 # Uncomment this line below, to Log IP addresses behind a proxy or enabling debug mode : see file config/behavior.inc.php
