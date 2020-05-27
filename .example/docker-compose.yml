@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  galette:
+    image: galette/galette:latest
+    container_name: galette
+    stdin_open: true
+    tty: true
+    ports:
+      - 8080:80
+# Uncomment this line below,to mount volume(s)
+#    volumes:
+# Uncomment this line below, after you have launch once Galette to create database : see file config / config.inc.php
+#      - ./config/config.inc.php:/var/www/galette/config/config.inc.php
+# Uncomment this line below, to Log IP addresses behind a proxy or enabling debug mode : see file config/behavior.inc.php
+# https://doc.galette.eu/en/master/usermanual/avancee.html#log-ip-addresses-behind-a-proxy
+#      - ./config/behavior.inc.php:/var/www/galette/config/behavior.inc.php
+# Uncomment this line below, to enable a custom css
+# https://doc.galette.eu/en/master/usermanual/avancee.html#adapt-to-your-graphical-chart
+#      - ./galette_local.css:/var/www/galette/webroot/themes/default/galette_local.css

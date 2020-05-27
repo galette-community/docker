@@ -1,0 +1,2 @@
+30  8  *  *  *  apache /usr/bin/php -f /var/www/galette/cron/reminder.php
+# An empty line is required at the end of this file for a valid cron file.
