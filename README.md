@@ -4,7 +4,6 @@
 
 Current repository hosts sources of the [Galette docker image](https://hub.docker.com/repository/docker/galette/galette), created and maintained by [Galette Community](https://github.com/galette-community/).
 
-Current repository hosts sources of the [Galette docker image](https://hub.docker.com/repository/docker/galette/galette), created and maintained by [Galette Community](https://github.com/galette-community/).
 
 ## Features
 
@@ -54,13 +53,8 @@ You're done !
 * and type `cat /var/www/galette/config/config.inc.php` to check your dabatase configuration
 * exit from container console  : `exit`
 
-<<<<<<< HEAD
-## Using Docker Compose
-An [example of docker-compose.yml](.example/docker-compose.yml) is provided.
-=======
-### Using Docker Compose
->>>>>>> 0a68f563c86f5110ebea6ec76667c158c44e51eb
 
+## Using Docker Compose
 An [example of docker-compose.yml](.example/docker-compose.yml) is provided.
 
 #### First launch
@@ -76,11 +70,7 @@ You're done !
 
 
 ## Reverse proxy
-<<<<<<< HEAD
-### Nginx
-=======
 
 ### Nginx
 
->>>>>>> 0a68f563c86f5110ebea6ec76667c158c44e51eb
 An [example of reverse proxy configuration for Nginx](.example/nginx/nginx.conf) is provided.
