@@ -1,17 +1,15 @@
-# YOURLS using Docker
+# GALETTE using Docker
 
 ## Maintained by: [Galette Community](https://github.com/galette-community/)
 
-This is the Git repo of the [Galette docker image](https://hub.docker.com/repository/docker/galette/galette))
+This is the Git repo of the [Galette docker image](https://hub.docker.com/repository/docker/galette/galette).
 
 
 ## Features
 
-
+* Mount volume to keep persistent database settings (*config.inc.php*)
+* enabling Log IP addresses behind a proxy (*optional*)
 * custom your CSS (volume)
-* Mount volume to keep persistent database settings
-
-
 
 ## How to use this image
 
