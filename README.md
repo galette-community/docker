@@ -60,4 +60,4 @@ You're done !
 
 ### Nginx
 
-An [example of reverse proxy configuration for Nginx](https://github.com/galette-community/docker/.example/nginx/nginx.conf) is provided.
+An [example of reverse proxy configuration for Nginx](.example/nginx/nginx.conf) is provided.
