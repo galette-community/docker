@@ -1,6 +1,6 @@
 ![Docker Stars](https://img.shields.io/docker/stars/galette/galette.svg) ![Docker Pulls](https://img.shields.io/docker/pulls/galette/galette.svg) ![Docker Automated](https://img.shields.io/docker/automated/galette/galette.svg) ![Docker Build](https://img.shields.io/docker/build/galette/galette.svg)
 
-# GALETTE using Docker
+# Galette using Docker
 
 ## Maintained by: [Galette Community](https://github.com/galette-community/)
 
