@@ -2,10 +2,7 @@
 
 # Galette using Docker
 
-## Maintained by: [Galette Community](https://github.com/galette-community/)
-
 Current repository hosts sources of the [Galette docker image](https://hub.docker.com/repository/docker/galette/galette), created and maintained by [Galette Community](https://github.com/galette-community/).
-
 
 ## Features
 
