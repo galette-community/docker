@@ -67,10 +67,10 @@ RUN chmod 0644 /etc/cron.d/galette-cron
 ## Apply cron job
 RUN crontab /etc/cron.d/galette-cron
 
-# Mount volumes
-VOLUME $GALETTE_DATA
-VOLUME $GALETTE_CONFIG
-
 # Chown /var/www/galette
 RUN chown -R www-data:www-data ${GALETTE_INSTALL}
 RUN chmod -R 0755 ${GALETTE_DATA}
+
+# Mount volumes
+VOLUME $GALETTE_DATA
+VOLUME $GALETTE_CONFIG
