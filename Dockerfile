@@ -4,8 +4,8 @@ FROM php:7.4-apache
 # Maintained by Hiob for Galette community
 MAINTAINER Hiob <hello@hiob.fr>
 
-LABEL version="1.0.0"
-LABEL description="PHP 7.4 / Apache 2 / Galette 0.9.3.1"
+LABEL version="1.1.0"
+LABEL description="PHP 7.4 / Apache 2 / Galette 0.9.4"
 
 # Install dependencies
 RUN a2enmod rewrite
@@ -33,7 +33,7 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 
 # Galette ENV
-ENV GALETTE_VERSION 0.9.3.1
+ENV GALETTE_VERSION 0.9.4
 
 ENV GALETTE_INSTALL /var/www/galette
 ENV GALETTE_DATA /var/www/galette/data
@@ -46,16 +46,16 @@ RUN cd /usr/src; tar jxvf galette-${GALETTE_VERSION}.tar.bz2; mv galette-${GALET
 
 # Install plugins
 ## Events
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-events-1.2.0.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-events-1.2.0.tar.bz2; rm galette-plugin-events-1.2.0.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-events-1.3.0.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-events-1.3.0.tar.bz2; rm galette-plugin-events-1.3.0.tar.bz2
 
 ## Maps
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-maps-1.4.0.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-maps-1.4.0.tar.bz2; rm galette-plugin-maps-1.4.0.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-maps-1.5.0.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-maps-1.5.0.tar.bz2; rm galette-plugin-maps-1.5.0.tar.bz2
 
 ## Paypal
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-paypal-1.7.0.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-paypal-1.7.0.tar.bz2; rm galette-plugin-paypal-1.7.0.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-paypal-1.8.0.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-paypal-1.8.0.tar.bz2; rm galette-plugin-paypal-1.8.0.tar.bz2
 
 # Cron auto-reminder
 ## Copy galette-cron file to the cron.d directory
