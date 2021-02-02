@@ -54,8 +54,8 @@ RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/p
 RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-maps-1.5.0.tar.bz2; rm galette-plugin-maps-1.5.0.tar.bz2
 
 ## Paypal
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-paypal-1.8.0.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-paypal-1.8.0.tar.bz2; rm galette-plugin-paypal-1.8.0.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-paypal-1.8.2.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-paypal-1.8.2.tar.bz2; rm galette-plugin-paypal-1.8.2.tar.bz2
 
 # Cron auto-reminder
 ## Copy galette-cron file to the cron.d directory
