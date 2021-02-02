@@ -33,7 +33,7 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 
 # Galette ENV
-ENV GALETTE_VERSION 0.9.4
+ENV GALETTE_VERSION 0.9.4.2
 
 ENV GALETTE_INSTALL /var/www/galette
 ENV GALETTE_DATA /var/www/galette/data
