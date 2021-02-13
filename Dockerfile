@@ -23,6 +23,7 @@ RUN docker-php-ext-install -j$(nproc) tidy gettext intl mysqli pdo_mysql && \
 
 # Enabling apache vhost
 COPY vhost.conf /etc/apache2/sites-available/vhost.conf
+RUN a2dissite * && a2ensite vhost.conf
 
 # Changing DOCUMENT ROOT
 RUN mkdir /var/www/galette
