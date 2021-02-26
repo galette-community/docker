@@ -58,6 +58,11 @@ RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-maps-1.5.0.tar.bz2; r
 RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-paypal-1.8.2.tar.bz2
 RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-paypal-1.8.2.tar.bz2; rm galette-plugin-paypal-1.8.2.tar.bz2
 
+## Stripe
+RUN cd ${GALETTE_INSTALL}/plugins; wget https://github.com/galette-community/plugin-stripe/archive/v0.0.2.tar.gz
+RUN cd ${GALETTE_INSTALL}/plugins; tar xvf v0.0.2.tar.gz; rm v0.0.2.tar.gz; mv plugin-stripe-0.0.2 galette-plugin-stripe
+
+
 # Cron auto-reminder
 ## Copy galette-cron file to the cron.d directory
 COPY galette-cron /etc/cron.d/galette-cron
