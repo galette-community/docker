@@ -1,11 +1,11 @@
 # Using PHP-Apache image
-FROM php:7.4-apache
+FROM php:8-apache
 
 # Maintained by Hiob for Galette community
 MAINTAINER Hiob <hello@hiob.fr>
 
 LABEL version="1.1.0"
-LABEL description="PHP 7.4 / Apache 2 / Galette 0.9.4.2"
+LABEL description="PHP 8 / Apache 2 / Galette 0.9.4.2"
 
 # Install dependencies
 RUN a2enmod rewrite
