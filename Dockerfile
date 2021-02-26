@@ -5,7 +5,7 @@ FROM php:7.4-apache
 MAINTAINER Hiob <hello@hiob.fr>
 
 LABEL version="1.1.0"
-LABEL description="PHP 7.4 / Apache 2 / Galette 0.9.4"
+LABEL description="PHP 7.4 / Apache 2 / Galette 0.9.4.2"
 
 # Install dependencies
 RUN a2enmod rewrite
