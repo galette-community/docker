@@ -2,7 +2,7 @@
 FROM php:7.4-apache
 
 # Maintained by Hiob for Galette community
-MAINTAINER Hiob <hello@hiob.fr>
+LABEL maintainer="Hiob <hello@hiob.fr>"
 
 LABEL version="1.4.0"
 LABEL description="PHP 7.4 / Apache 2 / Galette 0.9.4.2"
