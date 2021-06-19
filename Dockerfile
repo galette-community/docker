@@ -16,7 +16,8 @@ RUN apt-get -y update && apt-get install -y \
   libicu-dev \
   libjpeg62-turbo-dev \
   libpng-dev \
-  libtidy-dev
+  libtidy-dev \
+  tzdata
 RUN docker-php-ext-install -j$(nproc) tidy gettext intl mysqli pdo_mysql && \
   docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ && \
   docker-php-ext-install -j$(nproc) gd
@@ -41,6 +42,9 @@ ENV GALETTE_INSTALL /var/www/galette
 ENV GALETTE_DATA /var/www/galette/data
 ENV GALETTE_CONFIG /var/www/galette/config
 ENV GALETTE_WEBROOT /var/www/galette/webroot
+
+#Timezone default Env
+ENV TZ Europe/Paris
 
 # Install Galette
 RUN cd /usr/src; wget http://download.tuxfamily.org/galette/galette-${GALETTE_VERSION}.tar.bz2
