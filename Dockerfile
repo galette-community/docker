@@ -45,6 +45,7 @@ ENV GALETTE_WEBROOT /var/www/galette/webroot
 
 #Timezone default Env
 ENV TZ Europe/Paris
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install Galette
 RUN cd /usr/src; wget http://download.tuxfamily.org/galette/galette-${GALETTE_VERSION}.tar.bz2
