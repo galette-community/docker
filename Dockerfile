@@ -1,11 +1,11 @@
 # Using PHP-Apache image
-FROM php:7.4-apache
+FROM php:8-apache
 
 # Maintained by Hiob for Galette community
 LABEL maintainer="Hiob <hello@hiob.fr>"
 
-LABEL version="1.4.0"
-LABEL description="PHP 7.4 / Apache 2 / Galette 0.9.4.2"
+LABEL version="1.5.0"
+LABEL description="PHP 8 / Apache 2 / Galette 0.9.5"
 
 # Install dependencies
 RUN a2enmod rewrite
@@ -36,37 +36,42 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 
 # Galette ENV
-ENV GALETTE_VERSION 0.9.4.2
+ENV GALETTE_VERSION 0.9.5
 
-ENV GALETTE_INSTALL /var/www/galette
-ENV GALETTE_DATA /var/www/galette/data
 ENV GALETTE_CONFIG /var/www/galette/config
+ENV GALETTE_DATA /var/www/galette/data
+ENV GALETTE_INSTALL /var/www/galette
 ENV GALETTE_WEBROOT /var/www/galette/webroot
+
+ENV PLUGIN_EVENTS 1.4.0
+ENV PLUGIN_MAPS 1.6.0
+ENV PLUGIN_PAYPAL 1.9.0
+ENV PLUGIN_STRIPE 0.0.2
 
 #Timezone default Env
 ENV TZ Europe/Paris
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install Galette
-RUN cd /usr/src; wget http://download.tuxfamily.org/galette/galette-${GALETTE_VERSION}.tar.bz2
-RUN cd /usr/src; tar jxvf galette-${GALETTE_VERSION}.tar.bz2; mv galette-${GALETTE_VERSION}/galette/* ${GALETTE_INSTALL} ; rm galette-${GALETTE_VERSION}.tar.bz2
+RUN cd /usr/src; wget https://github.com/galette/galette/archive/refs/tags/${GALETTE_VERSION}.tar.gz
+RUN cd /usr/src; tar xvf galette-${GALETTE_VERSION}.tar.gz; mv galette-${GALETTE_VERSION}/galette/* ${GALETTE_INSTALL} ; rm galette-${GALETTE_VERSION}.tar.gz
 
 # Install plugins
 ## Events
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-events-1.3.0.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-events-1.3.0.tar.bz2; rm galette-plugin-events-1.3.0.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget https://github.com/galette/plugin-events/archive/refs/tags/${PLUGIN_EVENTS}.tar.gz
+RUN cd ${GALETTE_INSTALL}/plugins; tar xvf ${PLUGIN_EVENTS}.tar.gz; rm ${PLUGIN_EVENTS}.tar.gz; mv plugin-events-${PLUGIN_EVENTS} plugin-events
 
 ## Maps
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-maps-1.5.0.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-maps-1.5.0.tar.bz2; rm galette-plugin-maps-1.5.0.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget https://github.com/galette/plugin-maps/archive/refs/tags/${PLUGIN_MAPS}.tar.gz
+RUN cd ${GALETTE_INSTALL}/plugins; tar xvf ${PLUGIN_MAPS}.tar.gz; rm ${PLUGIN_MAPS}.tar.gz; mv plugin-maps-${PLUGIN_MAPS} plugin-maps
 
 ## Paypal
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-paypal-1.8.2.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-paypal-1.8.2.tar.bz2; rm galette-plugin-paypal-1.8.2.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget https://github.com/galette/plugin-paypal/archive/refs/tags/${PLUGIN_PAYPAL}.tar.gz
+RUN cd ${GALETTE_INSTALL}/plugins; tar xvf ${PLUGIN_PAYPAL}.tar.gz; rm ${PLUGIN_PAYPAL}.tar.gz; mv plugin-paypal-${PLUGIN_PAYPAL} plugin-paypal
 
 ## Stripe
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://github.com/galette-community/plugin-stripe/archive/v0.0.2.tar.gz
-RUN cd ${GALETTE_INSTALL}/plugins; tar xvf v0.0.2.tar.gz; rm v0.0.2.tar.gz; mv plugin-stripe-0.0.2 galette-plugin-stripe
+RUN cd ${GALETTE_INSTALL}/plugins; wget https://github.com/galette-community/plugin-stripe/archive/v${PLUGIN_STRIPE}.tar.gz
+RUN cd ${GALETTE_INSTALL}/plugins; tar xvf v${PLUGIN_STRIPE}.tar.gz; rm v${PLUGIN_STRIPE}.tar.gz; mv plugin-stripe-${PLUGIN_STRIPE} galette-plugin-stripe
 
 
 # Cron auto-reminder
