@@ -54,7 +54,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install Galette
 RUN cd /usr/src; wget https://github.com/galette/galette/archive/refs/tags/${GALETTE_VERSION}.tar.gz
-RUN cd /usr/src; tar xvf galette-${GALETTE_VERSION}.tar.gz; mv galette-${GALETTE_VERSION}/galette/* ${GALETTE_INSTALL} ; rm galette-${GALETTE_VERSION}.tar.gz
+RUN cd /usr/src; tar xvf ${GALETTE_VERSION}.tar.gz; rm ${GALETTE_VERSION}.tar.gz; mv galette-${GALETTE_VERSION}/galette/* ${GALETTE_INSTALL}
 
 # Install plugins
 ## Events
