@@ -53,8 +53,8 @@ ENV TZ Europe/Paris
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install Galette
-RUN cd /usr/src; wget https://github.com/galette/galette/archive/refs/tags/${GALETTE_VERSION}.tar.gz
-RUN cd /usr/src; tar xvf ${GALETTE_VERSION}.tar.gz; rm ${GALETTE_VERSION}.tar.gz; mv galette-${GALETTE_VERSION}/galette/* ${GALETTE_INSTALL}
+RUN cd /usr/src; wget http://download.tuxfamily.org/galette/galette-${GALETTE_VERSION}.tar.bz2
+RUN cd /usr/src; tar jxvf galette-${GALETTE_VERSION}.tar.bz2; mv galette-${GALETTE_VERSION}/galette/* ${GALETTE_INSTALL} ; rm galette-${GALETTE_VERSION}.tar.bz2
 
 # Install plugins
 ## Events
