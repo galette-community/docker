@@ -69,7 +69,6 @@ You're done !
 
 
 ## Reverse proxy
-
 ### Nginx
 
 An [example of reverse proxy configuration for Nginx](.example/nginx/nginx.conf) is provided.
