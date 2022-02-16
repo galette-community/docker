@@ -30,8 +30,9 @@ galette/galette:latest
 
 Now your Galette database is created, to have a persistent MySQL/PostgreSQL configuration, you need to mount your `config.inc.php` as a volume
 
-* create a `config.inc.php` file wherever you want containing the configuration copied above
+* create a `config.inc.php` file wherever you want containing the configuration copied above and turn environment variable `RM_INSTALL_FOLDER` to "1" (for remove install folder after installation/update, for security purpose)
 * now run again your container with a persistent volume to your `config.inc.php`
+
 ```
 docker run  -d -p 8080:80 --name galette
 -v  /path/to/config.inc.php:/var/www/galette/config/config.inc.php \
@@ -61,7 +62,7 @@ An [example of docker-compose.yml](.example/docker-compose.yml) is provided.
 * go to localhost:8080 and complete installation (database, etc)
 * stop and remove container : `docker-compose down`
 * create a `config.inc.php` file wherever you want containing the configuration copied above
-* edit `docker-compose.yml` and uncomment *volumes* section, make sure that your `/path/to/config.inc.php` is OK
+* edit `docker-compose.yml` and uncomment *volumes* section, make sure that your `/path/to/config.inc.php` is OK and turn environment variable `RM_INSTALL_FOLDER` to "1" (for remove install folder after installation/update, for security purpose)
 * launch container with `docker-compose up -d`
 
 You're done !
