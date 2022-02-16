@@ -4,8 +4,8 @@ FROM php:8.0-apache
 # Maintained by Hiob for Galette community
 LABEL maintainer="Hiob <hello@hiob.fr>"
 
-LABEL version="0.9.5.2"
-LABEL description="PHP 8.0 / Apache 2 / Galette 0.9.5.2"
+LABEL version="0.9.6"
+LABEL description="PHP 8.0 / Apache 2 / Galette 0.9.6"
 
 # Install APT dependencies
 RUN a2enmod rewrite
@@ -34,7 +34,7 @@ RUN sed -i 's/galette.localhost/galette.${HOSTNAME}/' /etc/apache2/sites-availab
 
 # ENVIRONMENT VARIABLES
 ## Galette version
-ENV GALETTE_VERSION 0.9.5.2
+ENV GALETTE_VERSION 0.9.6
 
 ## Galette ENV
 ENV GALETTE_CONFIG /var/www/galette/config
@@ -44,12 +44,12 @@ ENV GALETTE_WEBROOT /var/www/galette/webroot
 ENV RM_INSTALL_FOLDER 0
 
 ## Plugins versions
-ENV PLUGIN_AUTO 1.7.1
-ENV PLUGIN_EVENTS 1.4.1
-ENV PLUGIN_FULLCARD 1.8.1
-ENV PLUGIN_MAPS 1.6.1
-ENV PLUGIN_OBJECTSLEND 1.1.1
-ENV PLUGIN_PAYPAL 1.9.1
+ENV PLUGIN_AUTO 1.8.0
+ENV PLUGIN_EVENTS 1.5.0
+ENV PLUGIN_FULLCARD 1.8.2
+ENV PLUGIN_MAPS 1.7.0
+ENV PLUGIN_OBJECTSLEND 1.2.0
+ENV PLUGIN_PAYPAL 1.10.0
 
 # Changing DOCUMENT ROOT
 RUN mkdir $GALETTE_INSTALL
