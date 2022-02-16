@@ -1,2 +1,3 @@
-30  8  *  *  *  apache /usr/bin/php -f /var/www/galette/cron/reminder.php
+30  8  *  *  *  www-data /usr/local/bin/php -f /var/www/galette/cron/reminder.php >> /var/log/cron.log 2>&1
 # An empty line is required at the end of this file for a valid cron file.
+

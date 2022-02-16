@@ -4,7 +4,7 @@ FROM php:8.0-apache
 # Maintained by Hiob for Galette community
 LABEL maintainer="Hiob <hello@hiob.fr>"
 
-LABEL version="1.5.1"
+LABEL version="0.9.5.1"
 LABEL description="PHP 8.0 / Apache 2 / Galette 0.9.5.1"
 
 # Install APT dependencies
@@ -95,7 +95,7 @@ COPY galette-cron /etc/cron.d/galette-cron
 RUN chmod 0644 /etc/cron.d/galette-cron
 
 ## Apply cron job
-RUN crontab /etc/cron.d/galette-cron
+RUN crontab -u www-data /etc/cron.d/galette-cron
 
 # Create the log file to be able to run tail
 RUN touch /var/log/cron.log
