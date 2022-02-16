@@ -4,8 +4,8 @@ FROM php:8.0-apache
 # Maintained by Hiob for Galette community
 LABEL maintainer="Hiob <hello@hiob.fr>"
 
-LABEL version="0.9.5.1"
-LABEL description="PHP 8.0 / Apache 2 / Galette 0.9.5.1"
+LABEL version="0.9.5.2"
+LABEL description="PHP 8.0 / Apache 2 / Galette 0.9.5.2"
 
 # Install APT dependencies
 RUN a2enmod rewrite
@@ -34,7 +34,7 @@ RUN sed -i 's/galette.localhost/galette.${HOSTNAME}/' /etc/apache2/sites-availab
 
 # ENVIRONMENT VARIABLES
 ## Galette version
-ENV GALETTE_VERSION 0.9.5.1
+ENV GALETTE_VERSION 0.9.5.2
 
 ## Galette ENV
 ENV GALETTE_CONFIG /var/www/galette/config
@@ -44,6 +44,7 @@ ENV GALETTE_WEBROOT /var/www/galette/webroot
 ENV RM_INSTALL_FOLDER 0
 
 ## Plugins versions
+ENV PLUGIN_AUTO 1.7.1
 ENV PLUGIN_EVENTS 1.4.1
 ENV PLUGIN_FULLCARD 1.8.1
 ENV PLUGIN_MAPS 1.6.1
@@ -67,6 +68,10 @@ RUN cd /usr/src; wget https://download.tuxfamily.org/galette/galette-${GALETTE_V
 RUN cd /usr/src; tar jxvf galette-${GALETTE_VERSION}.tar.bz2; mv galette-${GALETTE_VERSION}/galette/* ${GALETTE_INSTALL} ; rm galette-${GALETTE_VERSION}.tar.bz2
 
 # Install official plugins
+## Auto
+RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-auto-${PLUGIN_AUTO}.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-auto-${PLUGIN_AUTO}.tar.bz2; rm galette-plugin-auto-${PLUGIN_AUTO}.tar.bz2; mv galette-plugin-auto-${PLUGIN_AUTO} plugin-auto
+
 ## Events
 RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-events-${PLUGIN_EVENTS}.tar.bz2
 RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-events-${PLUGIN_EVENTS}.tar.bz2; rm galette-plugin-events-${PLUGIN_EVENTS}.tar.bz2; mv galette-plugin-events-${PLUGIN_EVENTS} plugin-events
