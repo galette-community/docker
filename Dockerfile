@@ -87,7 +87,7 @@ RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-objectslend-${PLUGIN_
 RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-paypal-${PLUGIN_PAYPAL}.tar.bz2
 RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-paypal-${PLUGIN_PAYPAL}.tar.bz2; rm galette-plugin-paypal-${PLUGIN_PAYPAL}.tar.bz2; mv galette-plugin-paypal-${PLUGIN_PAYPAL} plugin-paypal
 
-# Cron auto-reminder
+# CRON Auto-Reminder
 ## Copy galette-cron file to the cron.d directory
 COPY galette-cron /etc/cron.d/galette-cron
 
@@ -96,6 +96,12 @@ RUN chmod 0644 /etc/cron.d/galette-cron
 
 ## Apply cron job
 RUN crontab /etc/cron.d/galette-cron
+
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+
+# Run the command on container startup
+CMD cron && tail -f /var/log/cron.log
 
 # Chown /var/www/galette
 RUN chown -R www-data:www-data $GALETTE_INSTALL
