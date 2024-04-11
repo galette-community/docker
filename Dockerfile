@@ -7,6 +7,11 @@ LABEL maintainer="Hiob <hello@hiob.fr>"
 LABEL version="0.9.6"
 LABEL description="PHP 8.0 / Apache 2 / Galette 0.9.6"
 
+ARG main_package_url="https://galette.eu/download/archives/"
+ARG plugin_package_url="https://galette.eu/download/archives/plugins/"
+#ARG main_package_url="https://download.tuxfamily.org/galette/"
+#ARG plugin_package_url="https://download.tuxfamily.org/galette/plugins/"
+
 # Install APT dependencies
 RUN a2enmod rewrite
 RUN apt-get -y update && apt-get install -y \
@@ -64,32 +69,32 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Installation Galette + Plugins
 ## Galette
-RUN cd /usr/src; wget https://download.tuxfamily.org/galette/galette-${GALETTE_VERSION}.tar.bz2
+RUN cd /usr/src; wget ${main_package_url}galette-${GALETTE_VERSION}.tar.bz2
 RUN cd /usr/src; tar jxvf galette-${GALETTE_VERSION}.tar.bz2; mv galette-${GALETTE_VERSION}/galette/* ${GALETTE_INSTALL} ; rm galette-${GALETTE_VERSION}.tar.bz2
 
 # Install official plugins
 ## Auto
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-auto-${PLUGIN_AUTO}.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-auto-${PLUGIN_AUTO}.tar.bz2
 RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-auto-${PLUGIN_AUTO}.tar.bz2; rm galette-plugin-auto-${PLUGIN_AUTO}.tar.bz2; mv galette-plugin-auto-${PLUGIN_AUTO} plugin-auto
 
 ## Events
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-events-${PLUGIN_EVENTS}.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-events-${PLUGIN_EVENTS}.tar.bz2
 RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-events-${PLUGIN_EVENTS}.tar.bz2; rm galette-plugin-events-${PLUGIN_EVENTS}.tar.bz2; mv galette-plugin-events-${PLUGIN_EVENTS} plugin-events
 
 ## FullCard
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-fullcard-${PLUGIN_FULLCARD}.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-fullcard-${PLUGIN_FULLCARD}.tar.bz2
 RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-fullcard-${PLUGIN_FULLCARD}.tar.bz2; rm galette-plugin-fullcard-${PLUGIN_FULLCARD}.tar.bz2; mv galette-plugin-fullcard-${PLUGIN_FULLCARD} plugin-fullcard
 
 ## Maps
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-maps-${PLUGIN_MAPS}.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-maps-${PLUGIN_MAPS}.tar.bz2
 RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-maps-${PLUGIN_MAPS}.tar.bz2; rm galette-plugin-maps-${PLUGIN_MAPS}.tar.bz2; mv galette-plugin-maps-${PLUGIN_MAPS} plugin-maps
 
 ## ObjectsLend
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-objectslend-${PLUGIN_OBJECTSLEND}.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-objectslend-${PLUGIN_OBJECTSLEND}.tar.bz2
 RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-objectslend-${PLUGIN_OBJECTSLEND}.tar.bz2; rm galette-plugin-objectslend-${PLUGIN_OBJECTSLEND}.tar.bz2; mv galette-plugin-objectslend-${PLUGIN_OBJECTSLEND} plugin-objectslend
 
 ## Paypal
-RUN cd ${GALETTE_INSTALL}/plugins; wget https://download.tuxfamily.org/galette/plugins/galette-plugin-paypal-${PLUGIN_PAYPAL}.tar.bz2
+RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-paypal-${PLUGIN_PAYPAL}.tar.bz2
 RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-paypal-${PLUGIN_PAYPAL}.tar.bz2; rm galette-plugin-paypal-${PLUGIN_PAYPAL}.tar.bz2; mv galette-plugin-paypal-${PLUGIN_PAYPAL} plugin-paypal
 
 # CRON Auto-Reminder
@@ -124,4 +129,3 @@ COPY scripts/entrypoint.sh /entrypoint.sh
 RUN chmod -v +x /entrypoint.sh
 USER www-data:www-data
 ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
-
