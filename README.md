@@ -16,7 +16,8 @@ Current repository hosts sources of the [Galette docker image](https://hub.docke
 
 ## How to use this image
 
-### Run manually
+### Run manually using docker command line
+This requires a first launch for initialization, followed by some configuration. Then you can run the container
 
 #### First launch
 
@@ -26,6 +27,8 @@ run your docker container to install to connect Galette to your database server
 docker run  -d -p 8080:80 --name galette \
 galette/galette:latest
 ```
+
+#### Configure
 * go to localhost:8080 and complete installation (database, etc)
 * stop container `docker container stop galette` and remove it `docker container rm galette`
 
@@ -33,6 +36,8 @@ Now your Galette database is created, to have a persistent MySQL/PostgreSQL conf
 
 * create a `config.inc.php` ([example](https://github.com/galette-community/docker/blob/master/.example/config/config.inc.php)) file wherever you want containing the configuration  and turn environment variable `RM_INSTALL_FOLDER` to "1" (for remove install folder after installation/update, for security purpose)
 * now run again your container with a persistent volume to your `config.inc.php`
+
+#### Running the container after first launch
 
 ```
 docker run  -d -p 8080:80 --name galette
@@ -42,17 +47,17 @@ docker run  -d -p 8080:80 --name galette
 -v  /path/to/data/files:/var/www/galette/data/files \
 -v  /path/to/data/logs:/var/www/galette/data/logs \
 -v  /path/to/data/photos:/var/www/galette/data/photos \
-- ./data/templates_c:/var/www/galette/data/templates_c \
+-v ./data/templates_c:/var/www/galette/data/templates_c \
 galette/galette:latest
 ```
-You're done !
-
 
 **N.B.:** You can check `config.inc.php` in container.
 * in terminal, connect to container console `docker container exec -ti galette bash`
 * and type `cat /var/www/galette/config/config.inc.php` to check your dabatase configuration
 * exit from container console  : `exit`
 
+#### Configure plugins
+From the main page of galette, click the plugin icon and manage the built-in modules. You can disable/enable them an initialize their database configuration from the UI.
 
 ## Using Docker Compose
 An [example of docker-compose.yml](.example/docker-compose.yml) is provided.
@@ -66,10 +71,15 @@ An [example of docker-compose.yml](.example/docker-compose.yml) is provided.
 * edit `docker-compose.yml` and uncomment *volumes* section, make sure that your `/path/to/config.inc.php` is OK and turn environment variable `RM_INSTALL_FOLDER` to "1" (for remove install folder after installation/update, for security purpose)
 * launch container with `docker-compose up -d`
 
-You're done !
+You're done (see above for plugin configuration)!
 
 
 ## Reverse proxy
 ### Nginx
 
 An [example of reverse proxy configuration for Nginx](.example/nginx/nginx.conf) is provided.
+
+## Building the docker image
+[comment]: <> (From https://www.techrepublic.com/article/how-to-build-a-docker-image-and-upload-it-to-docker-hub/)
+* Start the docker daemon
+* Run `docker build -t galette-testversion2 .` .
