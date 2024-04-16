@@ -4,7 +4,7 @@ FROM php:8.1-apache
 # Maintained by GrasDK for Galette community
 LABEL maintainer="GrasDK"
 
-LABEL version="1.1.0"
+LABEL version="1.0.0"
 LABEL description="PHP 8.1 / Apache 2 / Galette 1.0.0"
 
 ARG main_package_url="https://galette.eu/download/"
