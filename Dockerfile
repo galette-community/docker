@@ -1,14 +1,16 @@
 # Using PHP-Apache image
-FROM php:8.0-apache
+FROM php:8.1-apache
 
-# Maintained by Hiob for Galette community
-LABEL maintainer="Hiob <hello@hiob.fr>"
+# Maintained by GrasDK for Galette community
+# @author Hiob <hello@hiob.fr>"
+# @author GrasDK
+LABEL maintainer="GrasDK"
 
-LABEL version="0.9.6"
-LABEL description="PHP 8.0 / Apache 2 / Galette 0.9.6"
+LABEL version="1.0.0"
+LABEL description="PHP 8.1 / Apache 2 / Galette 1.0.0"
 
-ARG main_package_url="https://galette.eu/download/archives/"
-ARG plugin_package_url="https://galette.eu/download/archives/plugins/"
+ARG main_package_url="https://galette.eu/download/"
+ARG plugin_package_url="https://galette.eu/download/plugins/"
 #ARG main_package_url="https://download.tuxfamily.org/galette/"
 #ARG plugin_package_url="https://download.tuxfamily.org/galette/plugins/"
 
@@ -39,7 +41,15 @@ RUN sed -i 's/galette.localhost/galette.${HOSTNAME}/' /etc/apache2/sites-availab
 
 # ENVIRONMENT VARIABLES
 ## Galette version
-ENV GALETTE_VERSION 0.9.6
+ENV GALETTE_VERSION 1.0.0
+
+## Plugins versions
+ENV PLUGIN_AUTO 2.0.0
+ENV PLUGIN_EVENTS 2.0.0
+ENV PLUGIN_FULLCARD 2.0.0
+ENV PLUGIN_MAPS 2.0.0
+ENV PLUGIN_OBJECTSLEND 2.0.0
+ENV PLUGIN_PAYPAL 2.0.0
 
 ## Galette ENV
 ENV GALETTE_CONFIG /var/www/galette/config
@@ -47,14 +57,6 @@ ENV GALETTE_DATA /var/www/galette/data
 ENV GALETTE_INSTALL /var/www/galette
 ENV GALETTE_WEBROOT /var/www/galette/webroot
 ENV RM_INSTALL_FOLDER 0
-
-## Plugins versions
-ENV PLUGIN_AUTO 1.8.0
-ENV PLUGIN_EVENTS 1.5.0
-ENV PLUGIN_FULLCARD 1.8.2
-ENV PLUGIN_MAPS 1.7.0
-ENV PLUGIN_OBJECTSLEND 1.2.0
-ENV PLUGIN_PAYPAL 1.10.0
 
 # Changing DOCUMENT ROOT
 RUN mkdir $GALETTE_INSTALL
