@@ -2,6 +2,8 @@
 FROM php:8.1-apache
 
 # Maintained by GrasDK for Galette community
+# @author Hiob <hello@hiob.fr>"
+# @author GrasDK
 LABEL maintainer="GrasDK"
 
 LABEL version="1.0.0"
