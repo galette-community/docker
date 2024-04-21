@@ -13,6 +13,10 @@ LABEL maintainer="GrasDK"
 LABEL version=$galetteversion
 LABEL description="PHP $phpversion / Apache 2 / Galette $galetteversion"
 
+LABEL org.opencontainers.image.source=https://github.com/galette-community/docker
+LABEL org.opencontainers.image.description="Galette is a membership management web application towards non profit organizations."
+LABEL org.opencontainers.image.licenses=GPL-3.0-or-later
+
 ARG main_package_url="https://galette.eu/download/"
 ARG plugin_package_url="https://galette.eu/download/plugins/"
 #ARG main_package_url="https://download.tuxfamily.org/galette/"
