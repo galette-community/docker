@@ -1,17 +1,17 @@
 # Using PHP-Apache image
 FROM php:8.1-apache
 
+ARG galetteversion="1.0.0"
+ARG phpversion="8.1"
+
 # Maintained by GrasDK for Galette community
 LABEL maintainer="GrasDK"
-# Maintained by GrasDK for Galette community
 # @author Hiob <hello@hiob.fr>"
 # @author GrasDK
-LABEL maintainer="GrasDK"
 
-LABEL version="1.1.0"
-LABEL description="PHP 8.1 / Apache 2 / Galette 1.0.0"
-LABEL version="1.0.0"
-LABEL description="PHP 8.1 / Apache 2 / Galette 1.0.0"
+
+LABEL version=$galetteversion
+LABEL description="PHP $phpversion / Apache 2 / Galette $galetteversion"
 
 ARG main_package_url="https://galette.eu/download/"
 ARG plugin_package_url="https://galette.eu/download/plugins/"
@@ -45,7 +45,7 @@ RUN sed -i 's/galette.localhost/galette.${HOSTNAME}/' /etc/apache2/sites-availab
 
 # ENVIRONMENT VARIABLES
 ## Galette version
-ENV GALETTE_VERSION 1.0.0
+ENV GALETTE_VERSION=$galetteversion
 
 ## Plugins versions
 ENV PLUGIN_AUTO 2.0.0
