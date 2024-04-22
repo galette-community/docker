@@ -78,8 +78,3 @@ You're done (see above for plugin configuration)!
 ### Nginx
 
 An [example of reverse proxy configuration for Nginx](.example/nginx/nginx.conf) is provided.
-
-## Building the docker image
-[comment]: <> (From https://www.techrepublic.com/article/how-to-build-a-docker-image-and-upload-it-to-docker-hub/)
-* Start the docker daemon
-* Run `docker build -t galette-testversion2 .` .
