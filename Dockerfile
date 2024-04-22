@@ -1,7 +1,7 @@
 # Using PHP-Apache image
 FROM php:8.1-apache
 
-ARG galetteversion="1.0.0"
+ARG galetteversion="1.0.1"
 ARG phpversion="8.1"
 
 # Maintained by GrasDK for Galette community
