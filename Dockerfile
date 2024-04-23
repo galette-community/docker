@@ -7,7 +7,7 @@ LABEL maintainer="GrasDK"
 # @author GrasDK
 
 LABEL phpversion="8.1"
-ARG galetteversion="1.0.1"
+ARG galetteversion="1.0.2"
 ## Plugins versions
 ARG plugin_auto_version="2.0.0"
 ARG plugin_events_version="2.0.0"
@@ -32,14 +32,14 @@ ARG plugin_package_url="https://galette.eu/download/plugins/"
 RUN a2enmod rewrite
 RUN apt-get -y update \
   && apt-get install --no-install-recommends -y \
-  cron=3.0pl1-162 \
-  wget=1.21.3-1+b2 \
-  libfreetype6-dev=2.12.1+dfsg-5 \
-  libicu-dev=72.1-3 \
-  libjpeg62-turbo-dev=1:2.1.5-2 \
-  libpng-dev=1.6.39-2 \
-  libtidy-dev=2:5.6.0-11 \
-  tzdata=2024a-0+deb12u1 \
+  cron \
+  wget \
+  libfreetype6-dev \
+  libicu-dev \
+  libjpeg62-turbo-dev \
+  libpng-dev \
+  libtidy-dev \
+  tzdata \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
