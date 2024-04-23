@@ -1,14 +1,20 @@
 # Using PHP-Apache image
 FROM php:8.1-apache
 
-ARG galetteversion="1.0.0"
-ARG phpversion="8.1"
-
 # Maintained by GrasDK for Galette community
 LABEL maintainer="GrasDK"
 # @author Hiob
 # @author GrasDK
 
+LABEL phpversion="8.1"
+ARG galetteversion="1.0.1"
+## Plugins versions
+ARG plugin_auto_version="2.0.0"
+ARG plugin_events_version="2.0.0"
+ARG plugin_fullcard_version="2.0.0"
+ARG plugin_maps_version="2.0.0"
+ARG plugin_objectslend_version="2.0.0"
+ARG plugin_paypal_version="2.0.0"
 
 LABEL version=$galetteversion
 LABEL description="PHP $phpversion / Apache 2 / Galette $galetteversion"
@@ -24,40 +30,35 @@ ARG plugin_package_url="https://galette.eu/download/plugins/"
 
 # Install APT dependencies
 RUN a2enmod rewrite
-RUN apt-get -y update && apt-get install -y \
-  cron \
-  wget \
-  libfreetype6-dev \
-  libicu-dev \
-  libjpeg62-turbo-dev \
-  libpng-dev \
-  libtidy-dev \
-  tzdata
+RUN apt-get -y update \
+  && apt-get install --no-install-recommends -y \
+  cron=3.0pl1-162 \
+  wget=1.21.3-1+b2 \
+  libfreetype6-dev=2.12.1+dfsg-5 \
+  libicu-dev=72.1-3 \
+  libjpeg62-turbo-dev=1:2.1.5-2 \
+  libpng-dev=1.6.39-2 \
+  libtidy-dev=2:5.6.0-11 \
+  tzdata=2024a-0+deb12u1 \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install, Configure and Enable PHP extensions  
-RUN docker-php-ext-install -j$(nproc) tidy gettext intl && \
+RUN docker-php-ext-install "-j$(nproc)" tidy gettext intl && \
   docker-php-ext-install mysqli pdo pdo_mysql && \
   docker-php-ext-enable mysqli && \
   docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ && \
-  docker-php-ext-install -j$(nproc) gd 
+  docker-php-ext-install "-j$(nproc)" gd 
 RUN apachectl restart
 
 # Enabling apache vhost
 COPY vhost.conf /etc/apache2/sites-available/vhost.conf
-RUN sed -i 's/galette.localhost/galette.${HOSTNAME}/' /etc/apache2/sites-available/vhost.conf \
-    && a2dissite * && a2ensite vhost.conf
+RUN sed -i "s/galette.localhost/galette.${HOSTNAME}/" /etc/apache2/sites-available/vhost.conf \
+    && a2dissite -- * && a2ensite vhost.conf
 
 # ENVIRONMENT VARIABLES
 ## Galette version
 ENV GALETTE_VERSION=$galetteversion
-
-## Plugins versions
-ENV PLUGIN_AUTO 2.0.0
-ENV PLUGIN_EVENTS 2.0.0
-ENV PLUGIN_FULLCARD 2.0.0
-ENV PLUGIN_MAPS 2.0.0
-ENV PLUGIN_OBJECTSLEND 2.0.0
-ENV PLUGIN_PAYPAL 2.0.0
 
 ## Galette ENV
 ENV GALETTE_CONFIG /var/www/galette/config
@@ -70,62 +71,62 @@ ENV RM_INSTALL_FOLDER 0
 RUN mkdir $GALETTE_INSTALL
 ENV APACHE_DOCUMENT_ROOT $GALETTE_INSTALL
 
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+RUN sed -ri -e "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/sites-available/*.conf \
+ && sed -ri -e "s!/var/www/!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 ## Timezone
 ENV TZ Europe/Paris
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Installation Galette + Plugins
+# Installation Galette and plugins
 ## Galette
-RUN cd /usr/src; wget ${main_package_url}galette-${GALETTE_VERSION}.tar.bz2
-RUN cd /usr/src; tar jxvf galette-${GALETTE_VERSION}.tar.bz2; mv galette-${GALETTE_VERSION}/galette/* ${GALETTE_INSTALL} ; rm galette-${GALETTE_VERSION}.tar.bz2
+WORKDIR /usr/src
+RUN wget --progress=dot:giga ${main_package_url}galette-${GALETTE_VERSION}.tar.bz2
+RUN tar jxvf galette-${GALETTE_VERSION}.tar.bz2; mv galette-${GALETTE_VERSION}/galette/* ${GALETTE_INSTALL} ; rm galette-${GALETTE_VERSION}.tar.bz2
 
-# Install official plugins
-## Auto
-RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-auto-${PLUGIN_AUTO}.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-auto-${PLUGIN_AUTO}.tar.bz2; rm galette-plugin-auto-${PLUGIN_AUTO}.tar.bz2; mv galette-plugin-auto-${PLUGIN_AUTO} plugin-auto
+## Official plugins
+WORKDIR ${GALETTE_INSTALL}/plugins
+### Auto
+RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-auto-${plugin_auto_version}.tar.bz2
+RUN tar jxvf galette-plugin-auto-${plugin_auto_version}.tar.bz2; rm galette-plugin-auto-${plugin_auto_version}.tar.bz2; mv galette-plugin-auto-${plugin_auto_version} plugin-auto
 
-## Events
-RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-events-${PLUGIN_EVENTS}.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-events-${PLUGIN_EVENTS}.tar.bz2; rm galette-plugin-events-${PLUGIN_EVENTS}.tar.bz2; mv galette-plugin-events-${PLUGIN_EVENTS} plugin-events
+### Events
+RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-events-${plugin_events_version}.tar.bz2
+RUN tar jxvf galette-plugin-events-${plugin_events_version}.tar.bz2; rm galette-plugin-events-${plugin_events_version}.tar.bz2; mv galette-plugin-events-${plugin_events_version} plugin-events
 
-## FullCard
-RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-fullcard-${PLUGIN_FULLCARD}.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-fullcard-${PLUGIN_FULLCARD}.tar.bz2; rm galette-plugin-fullcard-${PLUGIN_FULLCARD}.tar.bz2; mv galette-plugin-fullcard-${PLUGIN_FULLCARD} plugin-fullcard
+### FullCard
+RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-fullcard-${plugin_fullcard_version}.tar.bz2
+RUN tar jxvf galette-plugin-fullcard-${plugin_fullcard_version}.tar.bz2; rm galette-plugin-fullcard-${plugin_fullcard_version}.tar.bz2; mv galette-plugin-fullcard-${plugin_fullcard_version} plugin-fullcard
 
-## Maps
-RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-maps-${PLUGIN_MAPS}.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-maps-${PLUGIN_MAPS}.tar.bz2; rm galette-plugin-maps-${PLUGIN_MAPS}.tar.bz2; mv galette-plugin-maps-${PLUGIN_MAPS} plugin-maps
+### Maps
+RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-maps-${plugin_maps_version}.tar.bz2
+RUN tar jxvf galette-plugin-maps-${plugin_maps_version}.tar.bz2; rm galette-plugin-maps-${plugin_maps_version}.tar.bz2; mv galette-plugin-maps-${plugin_maps_version} plugin-maps
 
-## ObjectsLend
-RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-objectslend-${PLUGIN_OBJECTSLEND}.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-objectslend-${PLUGIN_OBJECTSLEND}.tar.bz2; rm galette-plugin-objectslend-${PLUGIN_OBJECTSLEND}.tar.bz2; mv galette-plugin-objectslend-${PLUGIN_OBJECTSLEND} plugin-objectslend
+### ObjectsLend
+RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-objectslend-${plugin_objectslend_version}.tar.bz2
+RUN tar jxvf galette-plugin-objectslend-${plugin_objectslend_version}.tar.bz2; rm galette-plugin-objectslend-${plugin_objectslend_version}.tar.bz2; mv galette-plugin-objectslend-${plugin_objectslend_version} plugin-objectslend
 
-## Paypal
-RUN cd ${GALETTE_INSTALL}/plugins; wget ${plugin_package_url}galette-plugin-paypal-${PLUGIN_PAYPAL}.tar.bz2
-RUN cd ${GALETTE_INSTALL}/plugins; tar jxvf galette-plugin-paypal-${PLUGIN_PAYPAL}.tar.bz2; rm galette-plugin-paypal-${PLUGIN_PAYPAL}.tar.bz2; mv galette-plugin-paypal-${PLUGIN_PAYPAL} plugin-paypal
+### Paypal
+RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-paypal-${plugin_paypal_version}.tar.bz2
+RUN tar jxvf galette-plugin-paypal-${plugin_paypal_version}.tar.bz2; rm galette-plugin-paypal-${plugin_paypal_version}.tar.bz2; mv galette-plugin-paypal-${plugin_paypal_version} plugin-paypal
 
 # CRON Auto-Reminder
 ## Copy galette-cron file to the cron.d directory
 COPY galette-cron /etc/cron.d/galette-cron
 
 ## Give execution rights on the cron job
-RUN chmod 0644 /etc/cron.d/galette-cron
-
 ## Apply cron job
-RUN crontab -u www-data /etc/cron.d/galette-cron
-
 # Create the log file to be able to run tail
-RUN touch /var/log/cron.log
+RUN chmod 0644 /etc/cron.d/galette-cron \
+ && crontab -u www-data /etc/cron.d/galette-cron \ 
+ && touch /var/log/cron.log
 
 # Run the command on container startup
-CMD cron && tail -f /var/log/cron.log
+CMD ["cron", "tail -f /var/log/cron.log"]
 
 # Chown /var/www/galette
-RUN chown -R www-data:www-data $GALETTE_INSTALL
-RUN chmod -R 0755 $GALETTE_DATA
+RUN chown -R www-data:www-data $GALETTE_INSTALL \
+ && chmod -R 0755 $GALETTE_DATA
 
 # Mount volumes
 VOLUME $GALETTE_DATA
