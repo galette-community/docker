@@ -18,5 +18,12 @@ Although it's possible to build packages without `dockerd` running, using [`buil
 2. Run the build command: `docker buildx build -t galette-local .`
     * replace `galette-local` with any name you would like to give your local image
 
+### Building for multiple architecures locally
+1. Start the docker daemon if it's not already started: `sudo dockerd`
+2. Create a builder-image `docker buildx create --name mybuilder --use --bootstrap` (see "Building with Buildx" [here](https://www.docker.com/blog/how-to-rapidly-build-multi-architecture-images-with-buildx/) for more details)
+3. Run the build command: `docker buildx build --platform linux/amd64,linux/arm64 -t galette-local .`
+    * replace `galette-local` with any name you would like to give your local image
+    * NOTE: The build process is significantly longer than just building for your local architecture.
+
 ## Running the docker image locally
 1. Follow the same steps as in [How to use this image](./README.md#How-to-use-this-image), replacing the image name `galette/galette:latest` with your local container name, e.g. `galette-local`.
