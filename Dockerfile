@@ -6,7 +6,7 @@ ARG phpversion="8.1"
 
 # Maintained by GrasDK for Galette community
 LABEL maintainer="GrasDK"
-# @author Hiob <hello@hiob.fr>"
+# @author Hiob
 # @author GrasDK
 
 
