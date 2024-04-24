@@ -3,12 +3,15 @@
 
 Current repository hosts sources of the [Galette docker image](https://hub.docker.com/repository/docker/galette/galette), created and maintained by [Galette Community](https://github.com/galette-community/).
 
+## Contributing
+If you want to contribute to containerized galette, take a look [here](./CONTRIBUTING.md).
+
 ## Features
 * integrated plugins : [events](https://github.com/galette/plugin-events), [fullcard](https://github.com/galette/plugin-fullcard), [maps](https://github.com/galette/plugin-maps), [objectslend](https://github.com/galette/plugin-objectslend) and [paypal](https://github.com/galette/plugin-paypal)
 * mount volume to keep persistent database settings (*config.inc.php*)
 * keep data (images, logs, etc) persistent by mounting volume
 * enabling Log IP addresses behind a proxy (*optional*)
-* custom your CSS (volume)
+* customize your CSS (volume)
 * user www-data instead of root
 * a crontab will run `reminder.php` (with user www-data) every day at 8:30am to send reminder mail
 * only webroot is exposed via Apache DocumentRoot and vhost
