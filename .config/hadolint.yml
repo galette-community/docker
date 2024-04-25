@@ -1,2 +1,3 @@
 ignored:
   - SC3028
+  - DL3008
