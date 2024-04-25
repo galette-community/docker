@@ -1,19 +1,39 @@
 # Galette Docker project
 Building and maintaining this project is solely about the containerization of the finished Galette packages. If you want to contribute to Galette itself, take a look [here](https://galette.eu/site/contribute/). 
 
-## Prerequisites
+## Updating to next Galette version
+If you just want to upgrade to the next version of Galette, all you need to do is change the version number in the Dockerfile: `ARG galetteversion=<version>`. You might also need to update the plugin versions: `ARG plugin_< plugin name>_version=<version>`.
+
+After this, you _should_ of course build and test like described in [Building and testing locally](#building-and-testing-locally). But you can also commit the change, merge it to master and start a new release in GitHub. The github action [build and publish](./.github/workflows/docker-build-and-publish.yml), will build and publish the image, when a new release is published.
+
+In steps:
+1. Create a new branch or fork 
+2. Update `Dockerfile` with new version(s)
+3. [Build and test locally](#building-and-testing-locally) - _yeah, you really should do this ;)_
+4. Make a pull request and await approval if you can't approve yourself.
+    - Normal contributers cannot proceed past this step. The next step requires elevated access to the github repository. So these steps are intended for the maintainer(s) of the project.
+5. Once merged, click Releases in Github
+6. Click "Draft new Release" button
+7. Select "Choose a tag" and type a version number equal to the Galette version in the `Dockerfile`. Click "Create new tag: <version> on publish".
+8. Update the description (copy paste from the previous release) and update latest changes, using the "Generate Release Notes" button
+9. Click publish release
+10. The github action [build and publish](./.github/workflows/docker-build-and-publish.yml), will build and publish the image automatically.
+    - Note: [build and publish](./.github/workflows/docker-build-and-publish.yml) uses the username and a personal access token from a docker-hub user with access to the [galette organisation](https://hub.docker.com/orgs/galette/members) on dockerhub. These are both stored as secrets in Github. These tokens should be the current maintainer's.
+
+## Building and testing locally
+### Prerequisites
 - `docker` is installed in your development environment.
 - `dockerd` the docker deamon is installed (and [started](https://docs.docker.com/config/daemon/start/))
 - `buildx` is installed in your development environment.
 
 Although it's possible to build packages without `dockerd` running, using [`buildah`](https://buildah.io/), the focus here is on [`buildx`](https://docs.docker.com/reference/cli/docker/buildx/). You're welcome to contribute with instructions for `buildah`.
 
-## Linting
+### Linting
 1. Start the docker daemon if it's not already started: `sudo dockerd`
 2. Run hadolint (containerized): `docker run --rm -i -v ./.config/hadolint.yml:/.config/hadolint.yaml hadolint/hadolint < Dockerfile`
 3. Fix errors and warnings or add them to ignore list of the [hadolint configuration file](./.config/hadolint.yml) if there is a good reason for that. Read more [here](https://github.com/hadolint/hadolint).
 
-## Building the docker image locally
+### Building the docker image locally
 1. Start the docker daemon if it's not already started: `sudo dockerd`
 2. Run the build command: `docker buildx build -t galette-local .`
     * replace `galette-local` with any name you would like to give your local image
@@ -25,5 +45,5 @@ Although it's possible to build packages without `dockerd` running, using [`buil
     * replace `galette-local` with any name you would like to give your local image
     * NOTE: The build process is significantly longer than just building for your local architecture.
 
-## Running the docker image locally
+### Running the docker image locally
 1. Follow the same steps as in [How to use this image](./README.md#How-to-use-this-image), replacing the image name `galette/galette:latest` with your local container name, e.g. `galette-local`.
