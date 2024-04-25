@@ -17,12 +17,15 @@ If you want to contribute to containerized galette, take a look [here](./CONTRIB
 * only webroot is exposed via Apache DocumentRoot and vhost
 * you can use reverse proxy to access Galette by domain or subdomain
 
+## Prerequisites
+This docker image has no included database, so you need to have that separately. Since you probably already are running docker, take a look [here](https://mariadb.com/kb/en/installing-and-using-mariadb-via-docker/#creating-a-container) for a guide on how to run MariaDB in a container.
+
 ## How to use this image using docker command line
 Galette has a really nice installer, that runs you through database setup and initial admin user creation. The installer creates a configuration files, which you will be interested in keeping on a volume outside the docker image, for reuse when you upgrade to a newer version.
 
 Therefore it is really important that you follow this guide exactly.
 
-If you are upgrading from an ealier version, you can skip the first step below.
+If you are upgrading from an ealier version, you can skip the first two steps below.
 
 1. Create an empty file `config.inc.php` which you will mount as a volume in the next step.
     - It is important that you create this file. You can also take a copy of [this](.example/config/config.inc.php), as the contents do not matter
