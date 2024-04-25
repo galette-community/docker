@@ -8,8 +8,7 @@ LABEL maintainer="GrasDK"
 
 LABEL phpversion="8.2"
 ARG galetteversion="1.0.3"
-LABEL phpversion="8.1"
-ARG galetteversion="1.0.2"
+
 ## Plugins versions
 ARG plugin_auto_version="2.0.0"
 ARG plugin_events_version="2.0.0"
