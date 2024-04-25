@@ -1,13 +1,13 @@
 # Using PHP-Apache image
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 # Maintained by GrasDK for Galette community
 LABEL maintainer="GrasDK"
 # @author Hiob
 # @author GrasDK
 
-LABEL phpversion="8.1"
-ARG galetteversion="1.0.1"
+LABEL phpversion="8.2"
+ARG galetteversion="1.0.3"
 ## Plugins versions
 ARG plugin_auto_version="2.0.0"
 ARG plugin_events_version="2.0.0"
