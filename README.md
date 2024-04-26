@@ -25,7 +25,7 @@ Galette has a really nice installer, that runs you through database setup and in
 
 Therefore it is really important that you follow this guide exactly.
 
-If you are upgrading from an ealier version, you can skip the first two steps below.
+If you are upgrading from an earlier version, you can skip the first two steps below.
 
 1. Create an empty file `config.inc.php` which you will mount as a volume in the next step.
     - It is important that you create this file. You can also take a copy of [this](.example/config/config.inc.php), as the contents do not matter
@@ -72,14 +72,24 @@ If you are upgrading from an ealier version, you can skip the first two steps be
 From the main page of galette, click the plugin icon and manage the built-in modules. You can disable/enable them an initialize their database configuration from the UI.
 
 ## How to use this image using Docker Compose
-1. Copy [docker-compose.yml](.example/docker-compose.yml) to the folder, where you want to persist your configuration.
-2. Create a `config` folder and an empty `config.inc.php` in that folder. Or copy the one from [here](.example/config/config.inc.php).
-3. Launch with `docker-compose up -d`
-4. Go to http://localhost:8080/installer.php and complete installation (database, etc)
+1. Copy [`docker-compose/galette/docker-compose.yml`](docker-compose/galette/docker-compose.yml) and [`docker-compose/galette/.env`](docker-compose/galette/.env) to the folder, where you want to persist your configuration.
+2. Optionally edit the values in `.env`
+3. Create a `config` folder and an empty `config.inc.php` in that folder. Or copy the one from [here](.example/config/config.inc.php).
+4. Launch with `docker-compose up -d`
+5. Go to http://localhost:8080/installer.php and complete installation (database, etc).
+    - Note that http://localhost:8080 will report a failure, but adding /installer will work.
 
 You're done.
 
 5. See above for deleting the install folder, advanced configuration and plugin configuration! In the docker compose example file, there are commented out lines for the behavior or css volumes.
+
+## How to use this image AND a mariadb image using Docker Compose
+1. Copy [`docker-compose/galette-and-mariadb/docker-compose.yml`](docker-compose/galette-and-mariadb/docker-compose.yml) and [`docker-compose/galette-and-mariadb/.env`](docker-compose/galette-and-mariadb/.env) to the folder, where you want to persist your configuration.
+2. Edit the `env` file to set your database configuration. **Don't** skip this.   
+3. Continue with the rest of the steps above
+
+- MariaDB takes some time to start, so have patience. 
+- MariaDB and Galette will be running in two different containers. The MariaDB exposes its standard port 3306 according to the compose-configuration, so you can connect using the IP or hostname of the docker host, when you enter the database details in the galette installer.
 
 ## Reverse proxy
 ### Nginx

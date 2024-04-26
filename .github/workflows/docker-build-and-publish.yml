@@ -57,3 +57,4 @@ jobs:
           repository: galette/galette
           readme-filepath: ./README.md
           short-description: Membership management web application towards non profit organizations
+          enable-url-completion: true
