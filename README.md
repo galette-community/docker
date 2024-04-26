@@ -25,7 +25,7 @@ Galette has a really nice installer, that runs you through database setup and in
 
 Therefore it is really important that you follow this guide exactly.
 
-If you are upgrading from an ealier version, you can skip the first step below.
+If you are upgrading from an earlier version, you can skip the first two steps below.
 
 1. Create an empty file `config.inc.php` which you will mount as a volume in the next step.
     - It is important that you create this file. You can also take a copy of [this](.example/config/config.inc.php), as the contents do not matter
