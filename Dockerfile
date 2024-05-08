@@ -1,13 +1,16 @@
+ARG PHP_VERSION=8.2
+
 # Using PHP-Apache image
-FROM php:8.2-apache
+FROM php:${PHP_VERSION}-apache
+ARG PHP_VERSION
+ARG GALETTE_VERSION=1.0.4
+ARG GALETTE_RELEASE=galette-${GALETTE_VERSION}
 
 # Maintained by GrasDK for Galette community
 LABEL maintainer="GrasDK"
 # @author Hiob
 # @author GrasDK
 
-LABEL phpversion="8.2"
-ARG galetteversion="1.0.4"
 
 ## Plugins versions
 ARG plugin_auto_version="2.0.0"
@@ -17,17 +20,16 @@ ARG plugin_maps_version="2.0.0"
 ARG plugin_objectslend_version="2.0.0"
 ARG plugin_paypal_version="2.0.0"
 
-LABEL version=$galetteversion
-LABEL description="PHP $phpversion / Apache 2 / Galette $galetteversion"
+LABEL description="PHP $PHP_VERSION / Apache 2 / $GALETTE_RELEASE"
 
 LABEL org.opencontainers.image.source=https://github.com/galette-community/docker
 LABEL org.opencontainers.image.description="Galette is a membership management web application towards non profit organizations."
 LABEL org.opencontainers.image.licenses=GPL-3.0-or-later
 
-ARG main_package_url="https://galette.eu/download/"
-ARG plugin_package_url="https://galette.eu/download/plugins/"
-#ARG main_package_url="https://download.tuxfamily.org/galette/"
-#ARG plugin_package_url="https://download.tuxfamily.org/galette/plugins/"
+ARG MAIN_PACKAGE_URL="https://galette.eu/download/"
+ARG PLUGIN_PACKAGE_URL="https://galette.eu/download/plugins/"
+#ARG MAIN_PACKAGE_URL="https://download.tuxfamily.org/galette/"
+#ARG PLUGIN_PACKAGE_URL="https://download.tuxfamily.org/galette/plugins/"
 
 # Install APT dependencies
 RUN a2enmod rewrite
@@ -58,9 +60,6 @@ RUN sed -i "s/galette.localhost/galette.${HOSTNAME}/" /etc/apache2/sites-availab
     && a2dissite -- * && a2ensite vhost.conf
 
 # ENVIRONMENT VARIABLES
-## Galette version
-ENV GALETTE_VERSION=$galetteversion
-
 ## Galette ENV
 ENV GALETTE_CONFIG /var/www/galette/config
 ENV GALETTE_DATA /var/www/galette/data
@@ -82,33 +81,33 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Installation Galette and plugins
 ## Galette
 WORKDIR /usr/src
-RUN wget --progress=dot:giga ${main_package_url}galette-${GALETTE_VERSION}.tar.bz2
-RUN tar jxvf galette-${GALETTE_VERSION}.tar.bz2; mv galette-${GALETTE_VERSION}/galette/* ${GALETTE_INSTALL} ; rm galette-${GALETTE_VERSION}.tar.bz2
+RUN wget --progress=dot:giga ${MAIN_PACKAGE_URL}${GALETTE_RELEASE}.tar.bz2
+RUN tar jxvf ${GALETTE_RELEASE}.tar.bz2; mv ${GALETTE_RELEASE}/galette/* ${GALETTE_INSTALL} ; rm ${GALETTE_RELEASE}.tar.bz2
 
 ## Official plugins
 WORKDIR ${GALETTE_INSTALL}/plugins
 ### Auto
-RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-auto-${plugin_auto_version}.tar.bz2
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-auto-${plugin_auto_version}.tar.bz2
 RUN tar jxvf galette-plugin-auto-${plugin_auto_version}.tar.bz2; rm galette-plugin-auto-${plugin_auto_version}.tar.bz2; mv galette-plugin-auto-${plugin_auto_version} plugin-auto
 
 ### Events
-RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-events-${plugin_events_version}.tar.bz2
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-events-${plugin_events_version}.tar.bz2
 RUN tar jxvf galette-plugin-events-${plugin_events_version}.tar.bz2; rm galette-plugin-events-${plugin_events_version}.tar.bz2; mv galette-plugin-events-${plugin_events_version} plugin-events
 
 ### FullCard
-RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-fullcard-${plugin_fullcard_version}.tar.bz2
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-fullcard-${plugin_fullcard_version}.tar.bz2
 RUN tar jxvf galette-plugin-fullcard-${plugin_fullcard_version}.tar.bz2; rm galette-plugin-fullcard-${plugin_fullcard_version}.tar.bz2; mv galette-plugin-fullcard-${plugin_fullcard_version} plugin-fullcard
 
 ### Maps
-RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-maps-${plugin_maps_version}.tar.bz2
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-maps-${plugin_maps_version}.tar.bz2
 RUN tar jxvf galette-plugin-maps-${plugin_maps_version}.tar.bz2; rm galette-plugin-maps-${plugin_maps_version}.tar.bz2; mv galette-plugin-maps-${plugin_maps_version} plugin-maps
 
 ### ObjectsLend
-RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-objectslend-${plugin_objectslend_version}.tar.bz2
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-objectslend-${plugin_objectslend_version}.tar.bz2
 RUN tar jxvf galette-plugin-objectslend-${plugin_objectslend_version}.tar.bz2; rm galette-plugin-objectslend-${plugin_objectslend_version}.tar.bz2; mv galette-plugin-objectslend-${plugin_objectslend_version} plugin-objectslend
 
 ### Paypal
-RUN wget --progress=dot:giga ${plugin_package_url}galette-plugin-paypal-${plugin_paypal_version}.tar.bz2
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-paypal-${plugin_paypal_version}.tar.bz2
 RUN tar jxvf galette-plugin-paypal-${plugin_paypal_version}.tar.bz2; rm galette-plugin-paypal-${plugin_paypal_version}.tar.bz2; mv galette-plugin-paypal-${plugin_paypal_version} plugin-paypal
 
 # CRON Auto-Reminder

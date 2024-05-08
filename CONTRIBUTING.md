@@ -40,6 +40,14 @@ Although it's possible to build packages without `dockerd` running, using [`buil
     * replace `galette-local` with any name you would like to give your local image
     * `--load` loads the image into your local docker, so you can use it as a container image.
 
+#### Building the docker image with another version of PHP and/or Galette
+1. Follow the instructions above, but add any or both of these build args to the build command: `PHP_VERSION` and/or `GALETTE_VERSION`. For example:
+        `docker buildx build --platform linux/amd64 -t galette-local-special --build-arg PHP_VERSION=8.2 --build-arg GALETTE_VERSION=1.0.4 --load .`
+
+#### Building the docker image with Galette pre-releases
+1. Follow the instructions above, but override the two build args: `MAIN_PACKAGE_URL` and `GALETTE_RELEASE`. For example:
+        `docker buildx build --platform linux/amd64 -t galette-local-prerelease --build-arg MAIN_PACKAGE_URL=https://galette.eu/download/dev/ --build-arg GALETTE_RELEASE=galette-1.1.0-rc1-20240508-95bbbc2ede --load .`
+
 ### Building for multiple architecures locally
 1. Start the docker daemon if it's not already started: `sudo dockerd`
 2. Create a builder-image `docker buildx create --name mybuilder --use --bootstrap` (see "Building with Buildx" [here](https://www.docker.com/blog/how-to-rapidly-build-multi-architecture-images-with-buildx/) for more details)

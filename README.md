@@ -85,6 +85,7 @@ You're done.
 
 ## How to use this image AND a mariadb image using Docker Compose
 1. Copy [`docker-compose/galette-and-mariadb/docker-compose.yml`](docker-compose/galette-and-mariadb/docker-compose.yml) and [`docker-compose/galette-and-mariadb/.env`](docker-compose/galette-and-mariadb/.env) to the folder, where you want to persist your configuration.
+    - Note: The official mariadb docker image LTS version `10.11` is currently not released for `arm/v7` so it can't be used for e.g. RaspBerry Pi 32 bit. However, you can switch to this unofficial mariadb-image instead: `jbergstroem/mariadb-alpine:10.11.5`.
 2. Edit the `env` file to set your database configuration. **Don't** skip this.   
 3. Continue with the rest of the steps above
 
