@@ -2,7 +2,7 @@
 Building and maintaining this project is solely about the containerization of the finished Galette packages. If you want to contribute to Galette itself, take a look [here](https://galette.eu/site/contribute/). 
 
 ## Updating to next Galette version
-If you just want to upgrade to the next version of Galette, all you need to do is change the version number in the Dockerfile: `ARG galetteversion=<version>`. You might also need to update the plugin versions: `ARG plugin_< plugin name>_version=<version>`.
+If you just want to upgrade to the next version of Galette, all you need to do is change the version number in the Dockerfile: `ARG GALETTE_VERSION=<version>`. You might also need to update the plugin versions: `ARG plugin_< plugin name>_version=<version>`. You can also provide the `GALETTE_VERSION` as a build-arg (see below).
 
 After this, you _should_ of course build and test like described in [Building and testing locally](#building-and-testing-locally). But you can also commit the change, merge it to master and start a new release in GitHub. The github action [build and publish](./.github/workflows/docker-build-and-publish.yml), will build and publish the image, when a new release is published.
 
