@@ -63,18 +63,18 @@ If you are upgrading from an earlier version, you can skip step 1, 2 and 4 below
 
 6. Advanced configuration:
 
-    To change some default behavior of Galette, add `behavior.inc.php` to your `config` folder (same folder as `config.inc.php`). You can start with a copy of [this file](./.example/config/behavior.inc.php). You can change most things listed [here](https://doc.galette.eu/en/master/usermanual/avancee.html#behavior), among them:
-    - session timeout
-    - logging of IP's behind a proxy
-    - operation mode
+    - To change some default behavior of Galette, add `behavior.inc.php` to your `config` folder (same folder as `config.inc.php`). You can start with a copy of [this file](./.example/config/behavior.inc.php). You can change most things listed [here](https://doc.galette.eu/en/master/usermanual/avancee.html#behavior), among them:
+        - session timeout
+        - logging of IP's behind a proxy
+        - operation mode
 
-    Galette provides a parameted CSV exports system. Only one parameterized export is provided, but you can add your own: Add `exports.yaml` to your `config` folder (same folder as `config.inc.php`). Read [here](https://doc.galette.eu/en/master/usermanual/avancee.html#csv-exports) for more info.
+    - Galette provides a parameterized CSV exports system. Only one parameterized export is provided, but you can add your own: Add `exports.yaml` to your `config` folder (same folder as `config.inc.php`). Read [here](https://doc.galette.eu/en/master/usermanual/avancee.html#csv-exports) for more info.
 
-    To provide your own CSS styling for galette, create a `galette_local.css` on your host system, and add the folloing volume to your container parameters:
+    - To provide your own CSS styling for galette, create a `galette_local.css` on your host system, and add the folloing volume to your container parameters:
 
-    `-v ./path/to/galette_local.css:/var/www/galette/webroot/themes/default/galette_local.css`
+        `-v ./path/to/galette_local.css:/var/www/galette/webroot/themes/default/galette_local.css`
 
-    Remember to replace `./path/to/` with your own path. Read [here](https://doc.galette.eu/en/master/usermanual/avancee.html#adapt-to-your-graphical-chart) for more info on the styling.
+        Remember to replace `./path/to/` with your own path. Read [here](https://doc.galette.eu/en/master/usermanual/avancee.html#adapt-to-your-graphical-chart) for more info on the styling.
 
 ### Configure plugins
 From the main page of galette, click the plugin icon and manage the built-in modules. You can disable/enable them an initialize their database configuration from the UI.
@@ -82,14 +82,14 @@ From the main page of galette, click the plugin icon and manage the built-in mod
 ## How to use this image using Docker Compose
 1. Copy [`docker-compose/galette/docker-compose.yml`](docker-compose/galette/docker-compose.yml) and [`docker-compose/galette/.env`](docker-compose/galette/.env) to the folder, where you want to persist your configuration.
 2. Optionally edit the values in `.env`
-3. Create a `config` folder and an empty `config.inc.php` in that folder. Or copy the one from [here](.example/config/config.inc.php).
+3. Create a `config` folder and optionally add a `config.inc.php` file to that folder. You can copy the one from [here](.example/config/config.inc.php) and adjust it.
 4. Launch with `docker-compose up -d`
 5. Go to http://localhost:8080/installer.php and complete installation (database, etc).
     - Note that http://localhost:8080 will report a failure, but adding /installer will work.
 
 You're done.
 
-5. See above for deleting the install folder, advanced configuration and plugin configuration! In the docker compose example file, there are commented out lines for the behavior or css volumes.
+5. See above for deleting the install folder, advanced configuration and plugin configuration! In the docker compose example file, there are commented out lines for the css volume.
 
 ## How to use this image AND a mariadb image using Docker Compose
 1. Copy [`docker-compose/galette-and-mariadb/docker-compose.yml`](docker-compose/galette-and-mariadb/docker-compose.yml) and [`docker-compose/galette-and-mariadb/.env`](docker-compose/galette-and-mariadb/.env) to the folder, where you want to persist your configuration.
