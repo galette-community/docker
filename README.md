@@ -22,11 +22,11 @@ This docker image has no included database, so you need to have that separately.
 
 ## How to use this image using docker command line
 
-**Important!**: If you are using a Galette version before 1.1.0, please use [the earlier version of these instructions](https://github.com/galette-community/docker/blob/1.0.4/README.md#how-to-use-this-image-using-docker-command-line). Following these instructions for earlier versions will not work, due to differences in volumes.
+**Important!**: Following these instructions for Galette versions earlier than 1.1.0 will **not** work, due to differences in volumes. If you are using a Galette version earlier than 1.1.0, please follow [the earlier version of these instructions](https://github.com/galette-community/docker/blob/1.0.4/README.md#how-to-use-this-image-using-docker-command-line) 
 
 ---
 
-Galette has a really nice installer, that runs you through database setup and initial admin user creation. The installer creates a configuration file, which you will be interested in keeping on a volume outside the docker image, for reuse when you upgrade to a newer version.
+Galette has a really nice installer, that runs you through database setup and initial admin user creation. The installer creates a configuration file in the `config` folder, which you should keep on a volume outside the docker image, for reuse when you upgrade to a newer version. You also have the option to create files for advanced configuration in the same `config` folder (see step 6).
 
 Therefore it is really important that you follow this guide exactly.
 
@@ -63,18 +63,18 @@ If you are upgrading from an earlier version, you can skip step 1, 2 and 4 below
 
 6. Advanced configuration:
 
-    To change some default behavior of Galette, add `behavior.inc.php` to your `config` folder (same folder as `config.inc.php`). You can take a copy of [this file](./.example/config/behavior.inc.php). You can change most things listed [here](https://doc.galette.eu/en/master/usermanual/avancee.html#behavior), among them:
+    To change some default behavior of Galette, add `behavior.inc.php` to your `config` folder (same folder as `config.inc.php`). You can start with a copy of [this file](./.example/config/behavior.inc.php). You can change most things listed [here](https://doc.galette.eu/en/master/usermanual/avancee.html#behavior), among them:
     - session timeout
     - logging of IP's behind a proxy
     - operation mode
 
-    Add `exports.yaml` to your `config` folder (same folder as `config.inc.php`). Read [here](https://doc.galette.eu/en/master/usermanual/avancee.html#log-ip-addresses-behind-a-proxy) for more info.
+    Galette provides a parameted CSV exports system. Only one parameterized export is provided, but you can add your own: Add `exports.yaml` to your `config` folder (same folder as `config.inc.php`). Read [here](https://doc.galette.eu/en/master/usermanual/avancee.html#csv-exports) for more info.
 
-    Create a `galette_local.css` on your host system, and add the folloing volume to your container parameters to enable custom styling via CSS. Read [here](https://doc.galette.eu/en/master/usermanual/avancee.html#adapt-to-your-graphical-chart) for more info:
+    To provide your own CSS styling for galette, create a `galette_local.css` on your host system, and add the folloing volume to your container parameters:
 
-    `v ./path/to/galette_local.css:/var/www/galette/webroot/themes/default/galette_local.css`
+    `-v ./path/to/galette_local.css:/var/www/galette/webroot/themes/default/galette_local.css`
 
-    Remember to replace `./path/to/` with your own path.
+    Remember to replace `./path/to/` with your own path. Read [here](https://doc.galette.eu/en/master/usermanual/avancee.html#adapt-to-your-graphical-chart) for more info on the styling.
 
 ### Configure plugins
 From the main page of galette, click the plugin icon and manage the built-in modules. You can disable/enable them an initialize their database configuration from the UI.
