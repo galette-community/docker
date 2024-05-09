@@ -13,12 +13,12 @@ LABEL maintainer="GrasDK"
 
 
 ## Plugins versions
-ARG plugin_auto_version="2.0.0"
-ARG plugin_events_version="2.0.0"
-ARG plugin_fullcard_version="2.0.0"
-ARG plugin_maps_version="2.0.0"
-ARG plugin_objectslend_version="2.0.0"
-ARG plugin_paypal_version="2.0.0"
+ARG PLUGIN_AUTO_VERSION="2.0.0"
+ARG PLUGIN_EVENTS_VERSION="2.0.0"
+ARG PLUGIN_FULLCARD_VERSION="2.0.0"
+ARG PLUGIN_MAPS_VERSION="2.0.0"
+ARG PLUGIN_OBJECTSLEND_VERSION="2.0.0"
+ARG PLUGIN_PAYPAL_VERSION="2.0.0"
 
 LABEL description="PHP $PHP_VERSION / Apache 2 / $GALETTE_RELEASE"
 
@@ -87,28 +87,28 @@ RUN tar jxvf ${GALETTE_RELEASE}.tar.bz2; mv ${GALETTE_RELEASE}/galette/* ${GALET
 ## Official plugins
 WORKDIR ${GALETTE_INSTALL}/plugins
 ### Auto
-RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-auto-${plugin_auto_version}.tar.bz2
-RUN tar jxvf galette-plugin-auto-${plugin_auto_version}.tar.bz2; rm galette-plugin-auto-${plugin_auto_version}.tar.bz2; mv galette-plugin-auto-${plugin_auto_version} plugin-auto
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-auto-${PLUGIN_AUTO_VERSION}.tar.bz2
+RUN tar jxvf galette-plugin-auto-${PLUGIN_AUTO_VERSION}.tar.bz2; rm galette-plugin-auto-${PLUGIN_AUTO_VERSION}.tar.bz2; mv galette-plugin-auto-${PLUGIN_AUTO_VERSION} plugin-auto
 
 ### Events
-RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-events-${plugin_events_version}.tar.bz2
-RUN tar jxvf galette-plugin-events-${plugin_events_version}.tar.bz2; rm galette-plugin-events-${plugin_events_version}.tar.bz2; mv galette-plugin-events-${plugin_events_version} plugin-events
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-events-${PLUGIN_EVENTS_VERSION}.tar.bz2
+RUN tar jxvf galette-plugin-events-${PLUGIN_EVENTS_VERSION}.tar.bz2; rm galette-plugin-events-${PLUGIN_EVENTS_VERSION}.tar.bz2; mv galette-plugin-events-${PLUGIN_EVENTS_VERSION} plugin-events
 
 ### FullCard
-RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-fullcard-${plugin_fullcard_version}.tar.bz2
-RUN tar jxvf galette-plugin-fullcard-${plugin_fullcard_version}.tar.bz2; rm galette-plugin-fullcard-${plugin_fullcard_version}.tar.bz2; mv galette-plugin-fullcard-${plugin_fullcard_version} plugin-fullcard
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-fullcard-${PLUGIN_FULLCARD_VERSION}.tar.bz2
+RUN tar jxvf galette-plugin-fullcard-${PLUGIN_FULLCARD_VERSION}.tar.bz2; rm galette-plugin-fullcard-${PLUGIN_FULLCARD_VERSION}.tar.bz2; mv galette-plugin-fullcard-${PLUGIN_FULLCARD_VERSION} plugin-fullcard
 
 ### Maps
-RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-maps-${plugin_maps_version}.tar.bz2
-RUN tar jxvf galette-plugin-maps-${plugin_maps_version}.tar.bz2; rm galette-plugin-maps-${plugin_maps_version}.tar.bz2; mv galette-plugin-maps-${plugin_maps_version} plugin-maps
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-maps-${PLUGIN_MAPS_VERSION}.tar.bz2
+RUN tar jxvf galette-plugin-maps-${PLUGIN_MAPS_VERSION}.tar.bz2; rm galette-plugin-maps-${PLUGIN_MAPS_VERSION}.tar.bz2; mv galette-plugin-maps-${PLUGIN_MAPS_VERSION} plugin-maps
 
 ### ObjectsLend
-RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-objectslend-${plugin_objectslend_version}.tar.bz2
-RUN tar jxvf galette-plugin-objectslend-${plugin_objectslend_version}.tar.bz2; rm galette-plugin-objectslend-${plugin_objectslend_version}.tar.bz2; mv galette-plugin-objectslend-${plugin_objectslend_version} plugin-objectslend
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-objectslend-${PLUGIN_OBJECTSLEND_VERSION}.tar.bz2
+RUN tar jxvf galette-plugin-objectslend-${PLUGIN_OBJECTSLEND_VERSION}.tar.bz2; rm galette-plugin-objectslend-${PLUGIN_OBJECTSLEND_VERSION}.tar.bz2; mv galette-plugin-objectslend-${PLUGIN_OBJECTSLEND_VERSION} plugin-objectslend
 
 ### Paypal
-RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-paypal-${plugin_paypal_version}.tar.bz2
-RUN tar jxvf galette-plugin-paypal-${plugin_paypal_version}.tar.bz2; rm galette-plugin-paypal-${plugin_paypal_version}.tar.bz2; mv galette-plugin-paypal-${plugin_paypal_version} plugin-paypal
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-paypal-${PLUGIN_PAYPAL_VERSION}.tar.bz2
+RUN tar jxvf galette-plugin-paypal-${PLUGIN_PAYPAL_VERSION}.tar.bz2; rm galette-plugin-paypal-${PLUGIN_PAYPAL_VERSION}.tar.bz2; mv galette-plugin-paypal-${PLUGIN_PAYPAL_VERSION} plugin-paypal
 
 # CRON Auto-Reminder
 ## Copy galette-cron file to the cron.d directory
