@@ -22,7 +22,7 @@ This docker image has no included database, so you need to have that separately.
 
 ## How to use this image using docker command line
 
-**Important!**: Following these instructions for Galette versions earlier than 1.1.0 will **not** work, due to differences in volumes. If you are using a Galette version earlier than 1.1.0, please follow [the earlier version of these instructions](https://github.com/galette-community/docker/blob/1.0.4/README.md#how-to-use-this-image-using-docker-command-line) 
+**Important!**: Following these instructions for Galette versions earlier than 1.1.0 will **not** work, due to differences in volumes. If you are using a Galette version earlier than 1.1.0, please follow [the earlier version of these instructions](https://github.com/galette-community/docker/blob/1.0.4/README.md#how-to-use-this-image-using-docker-command-line). Instructions for version 1.0.4 should work for all ealier versions, but if you run into trouble with those, you can follow [version-specific instructions](https://github.com/galette-community/docker/tags).
 
 ---
 
@@ -33,7 +33,7 @@ Therefore it is really important that you follow this guide exactly.
 If you are upgrading from an earlier version, you can skip step 1, 2 and 4 below.
 
 1. Create folders corresponding to all the volumes in the next step.
-2. Optional: Create a file `config.inc.php` in the `config` folder. You can also copy [this](.example/config/config.inc.php) and alter it to suit your configuration.
+2. Optional: Create a file `config.inc.php` in the `config` folder. You can also copy [this](.example/config/config.inc.php) and alter it to suit your configuration. You can put in your database details up front, or wait until step 4.
 3. Start a container with the version of galette you want (e.g. V1.1.0) and the proper list of volumes.
     ```
     docker run  -d -p 8080:80 --name galette

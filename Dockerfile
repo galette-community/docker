@@ -3,7 +3,7 @@ ARG PHP_VERSION=8.2
 # Using PHP-Apache image
 FROM php:${PHP_VERSION}-apache
 ARG PHP_VERSION
-ARG GALETTE_VERSION=1.0.4
+ARG GALETTE_VERSION=1.1.0
 ARG GALETTE_RELEASE=galette-${GALETTE_VERSION}
 
 # Maintained by GrasDK for Galette community
@@ -13,12 +13,12 @@ LABEL maintainer="GrasDK"
 
 
 ## Plugins versions
-ARG PLUGIN_AUTO_VERSION="2.0.0"
-ARG PLUGIN_EVENTS_VERSION="2.0.0"
-ARG PLUGIN_FULLCARD_VERSION="2.0.0"
-ARG PLUGIN_MAPS_VERSION="2.0.0"
-ARG PLUGIN_OBJECTSLEND_VERSION="2.0.0"
-ARG PLUGIN_PAYPAL_VERSION="2.0.0"
+ARG PLUGIN_AUTO_VERSION="2.1.0"
+ARG PLUGIN_EVENTS_VERSION="2.1.0"
+ARG PLUGIN_FULLCARD_VERSION="2.1.0"
+ARG PLUGIN_MAPS_VERSION="2.1.0"
+ARG PLUGIN_OBJECTSLEND_VERSION="2.1.0"
+ARG PLUGIN_PAYPAL_VERSION="2.1.0"
 
 LABEL description="PHP $PHP_VERSION / Apache 2 / $GALETTE_RELEASE"
 
@@ -30,7 +30,6 @@ ARG MAIN_PACKAGE_URL="https://galette.eu/download/"
 ARG PLUGIN_PACKAGE_URL="https://galette.eu/download/plugins/"
 #ARG MAIN_PACKAGE_URL="https://download.tuxfamily.org/galette/"
 #ARG PLUGIN_PACKAGE_URL="https://download.tuxfamily.org/galette/plugins/"
-
 # Install APT dependencies
 RUN a2enmod rewrite
 RUN apt-get -y update \
