@@ -34,10 +34,7 @@ services:
       - ${GALETTE_DATA_DIR}/data/photos:/var/www/galette/data/photos
       - ${GALETTE_DATA_DIR}/data/tempimages:/var/www/galette/data/tempimages
       - ${GALETTE_DATA_DIR}/data/templates_c:/var/www/galette/data/templates_c
-      - ${GALETTE_DATA_DIR}/config/config.inc.php:/var/www/galette/config/config.inc.php
-# Uncomment this line below, to Log IP addresses behind a proxy or enabling debug mode : see file config/behavior.inc.php
-# https://doc.galette.eu/en/master/usermanual/avancee.html#log-ip-addresses-behind-a-proxy
-#      - ${DATA_DIR}/config/behavior.inc.php:/var/www/galette/config/behavior.inc.php
+      - ${GALETTE_DATA_DIR}/config:/var/www/galette/config
 # Uncomment this line below, to enable a custom css
 # https://doc.galette.eu/en/master/usermanual/avancee.html#adapt-to-your-graphical-chart
-#      - ${DATA_DIR}/galette_local.css:/var/www/galette/webroot/themes/default/galette_local.css
+#      - ${GALETTE_DATA_DIR}/galette_local.css:/var/www/galette/webroot/themes/default/galette_local.css
