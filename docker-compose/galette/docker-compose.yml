@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  galette:
+    image: galette/galette:${GALETTE_VERSION}
+    restart: always
+    container_name: galette-${GALETTE_VERSION}
+    stdin_open: true
+    tty: true
+    environment:
+      - TZ=Europe/Paris # Define Timezone. Europe/Paris by default.
+      - RM_INSTALL_FOLDER=0 # 0 by default. Turn to "1" to remove "install" folder (for security purpose), after installation/update.    
+    ports:
+      - 8080:80
+    volumes:
+      - ${GALETTE_DATA_DIR}/data/attachments:/var/www/galette/data/attachments
+      - ${GALETTE_DATA_DIR}/data/cache:/var/www/galette/data/cache
+      - ${GALETTE_DATA_DIR}/data/files:/var/www/galette/data/files
+      - ${GALETTE_DATA_DIR}/data/logs:/var/www/galette/data/logs
+      - ${GALETTE_DATA_DIR}/data/photos:/var/www/galette/data/photos
+      - ${GALETTE_DATA_DIR}/data/tempimages:/var/www/galette/data/tempimages
+      - ${GALETTE_DATA_DIR}/data/templates_c:/var/www/galette/data/templates_c
+      - ${GALETTE_DATA_DIR}/config:/var/www/galette/config
+# Uncomment this line below, to enable a custom css
+# https://doc.galette.eu/en/master/usermanual/avancee.html#adapt-to-your-graphical-chart
+#      - ${GALETTE_DATA_DIR}/galette_local.css:/var/www/galette/webroot/themes/default/galette_local.css

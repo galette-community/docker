@@ -2,7 +2,9 @@
 Building and maintaining this project is solely about the containerization of the finished Galette packages. If you want to contribute to Galette itself, take a look [here](https://galette.eu/site/contribute/). 
 
 ## Updating to next Galette version
-If you just want to upgrade to the next version of Galette, all you need to do is change the version number in the Dockerfile: `ARG galetteversion=<version>`. You might also need to update the plugin versions: `ARG plugin_< plugin name>_version=<version>`.
+If you just want to upgrade to the next version of Galette, all you need to do is change the version number in the Dockerfile: `ARG GALETTE_VERSION=<version>`. You might also need to update the plugin versions: `ARG PLUGIN_<plugin name>_VERSION=<version>`. 
+
+You can also provide these arguments as a build-args (see [Building the docker image with another version of PHP and/or Galette](#building-the-docker-image-with-another-version-of-php-andor-galette)).
 
 After this, you _should_ of course build and test like described in [Building and testing locally](#building-and-testing-locally). But you can also commit the change, merge it to master and start a new release in GitHub. The github action [build and publish](./.github/workflows/docker-build-and-publish.yml), will build and publish the image, when a new release is published.
 
@@ -39,6 +41,38 @@ Although it's possible to build packages without `dockerd` running, using [`buil
     * replace the platform (`linux/amd64`) if you're building on another platform
     * replace `galette-local` with any name you would like to give your local image
     * `--load` loads the image into your local docker, so you can use it as a container image.
+
+#### Building the docker image with another version of PHP and/or Galette
+Follow the instructions above, but add any or both of these build args to the build command: `PHP_VERSION` and/or `GALETTE_VERSION`. For example:
+
+    ```
+    docker buildx build --platform linux/amd64 -t galette-local-special \
+    --build-arg PHP_VERSION=8.2 \
+    --build-arg GALETTE_VERSION=1.0.4 \
+    --load .
+    ```
+
+#### Building the docker image with Galette pre-releases
+- Follow the instructions above, but override the two build args: `MAIN_PACKAGE_URL` and `GALETTE_RELEASE`. For example:
+    ```
+    docker buildx build --platform linux/amd64 -t galette-local-prerelease \
+    --build-arg MAIN_PACKAGE_URL=https://galette.eu/download/dev/ \
+    --build-arg GALETTE_RELEASE=galette-1.1.0-rc1-20240508-95bbbc2ede \
+    --load .
+    ```
+- If you want to add nightly official plugin releases, follow the instructions above, but add which release you want for each plugin as builds args, e.g. So for eample:
+    ```
+    docker buildx build --platform linux/amd64 -t galette-local-prerelease \
+    --build-arg MAIN_PACKAGE_URL=https://galette.eu/download/dev/ \
+    --build-arg GALETTE_RELEASE=galette-1.1.0-rc1-20240508-95bbbc2ede \
+    --build-arg PLUGIN_AUTO_VERSION=dev \
+    --build-arg PLUGIN_EVENTS_VERSION=dev \
+    --build-arg PLUGIN_FULLCARD_VERSION=dev \
+    --build-arg PLUGIN_MAPS_VERSION=dev \
+    --build-arg PLUGIN_OBJECTSLEND_VERSION=dev \
+    --build-arg PLUGIN_PAYPAL_VERSION=dev \
+    --load .
+    ```
 
 ### Building for multiple architecures locally
 1. Start the docker daemon if it's not already started: `sudo dockerd`
