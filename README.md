@@ -22,7 +22,7 @@ This docker image has no included database, so you need to have that separately.
 
 **Important!**: Following the instructions instructions for Galette versions earlier than 1.1.0 will **not** work, due to differences in volumes. If you are using a Galette version earlier than 1.1.0, please follow [the earlier version of these instructions](https://github.com/galette-community/docker/blob/1.0.4/README.md#how-to-use-this-image-using-docker-command-line). Instructions for version 1.0.4 should work for all ealier versions, but if you run into trouble with those, you can follow [version-specific instructions](https://github.com/galette-community/docker/tags).
 
-**Note for version 1.1.2**: The installer does not work in the containerized galette version 1.1.2. Upgrading works fine. A work around for a fresh install is to start with version 1.1.1, do the full install, then switch to image version 1.1.2 using the same volumes and settings as you did on version 1.1.1.
+**Note for version 1.1.2**: If the installer does not work, a work around for a fresh install is to start with version 1.1.1, do the full install, then switch to image version 1.1.2 using the same volumes and settings as you did on version 1.1.1.
 
 ## How to use this image using docker command line
 
