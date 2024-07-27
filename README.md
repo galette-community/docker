@@ -20,11 +20,11 @@ If you want to contribute to containerized galette, take a look [here](./CONTRIB
 ## Prerequisites
 This docker image has no included database, so you need to have that separately. Since you probably already are running docker, take a look [here](https://mariadb.com/kb/en/installing-and-using-mariadb-via-docker/#creating-a-container) for a guide on how to run MariaDB in a container.
 
+**Important!**: Following the instructions instructions for Galette versions earlier than 1.1.0 will **not** work, due to differences in volumes. If you are using a Galette version earlier than 1.1.0, please follow [the earlier version of these instructions](https://github.com/galette-community/docker/blob/1.0.4/README.md#how-to-use-this-image-using-docker-command-line). Instructions for version 1.0.4 should work for all ealier versions, but if you run into trouble with those, you can follow [version-specific instructions](https://github.com/galette-community/docker/tags).
+
+**Note for version 1.1.2**: If the installer does not work, a work around for a fresh install is to start with version 1.1.1, do the full install, then switch to image version 1.1.2 using the same volumes and settings as you did on version 1.1.1.
+
 ## How to use this image using docker command line
-
-**Important!**: Following these instructions for Galette versions earlier than 1.1.0 will **not** work, due to differences in volumes. If you are using a Galette version earlier than 1.1.0, please follow [the earlier version of these instructions](https://github.com/galette-community/docker/blob/1.0.4/README.md#how-to-use-this-image-using-docker-command-line). Instructions for version 1.0.4 should work for all ealier versions, but if you run into trouble with those, you can follow [version-specific instructions](https://github.com/galette-community/docker/tags).
-
----
 
 Galette has a really nice installer, that runs you through database setup and initial admin user creation. The installer creates a configuration file in the `config` folder, which you should keep on a volume outside the docker image, for reuse when you upgrade to a newer version. You also have the option to create files for advanced configuration in the same `config` folder (see step 6).
 
