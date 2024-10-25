@@ -3,7 +3,7 @@ ARG PHP_VERSION=8.2
 # Using PHP-Apache image
 FROM php:${PHP_VERSION}-apache
 ARG PHP_VERSION
-ARG GALETTE_VERSION=1.1.3
+ARG GALETTE_VERSION=1.1.4
 ARG GALETTE_RELEASE=galette-${GALETTE_VERSION}
 
 # Maintained by GrasDK for Galette community
@@ -13,12 +13,13 @@ LABEL maintainer="GrasDK"
 
 
 ## Plugins versions
-ARG PLUGIN_AUTO_VERSION="2.1.1"
-ARG PLUGIN_EVENTS_VERSION="2.1.2"
+ARG PLUGIN_AUTO_VERSION="2.1.3"
+ARG PLUGIN_EVENTS_VERSION="2.1.3"
 ARG PLUGIN_FULLCARD_VERSION="2.1.0"
-ARG PLUGIN_MAPS_VERSION="2.1.0"
-ARG PLUGIN_OBJECTSLEND_VERSION="2.1.1"
-ARG PLUGIN_PAYPAL_VERSION="2.1.1"
+ARG PLUGIN_MAPS_VERSION="2.1.2"
+ARG PLUGIN_OBJECTSLEND_VERSION="2.1.2"
+ARG PLUGIN_PAYPAL_VERSION="2.1.2"
+ARG PLUGIN_ACTIVITIES_VERSION="1.0.4"
 
 LABEL description="PHP $PHP_VERSION / Apache 2 / $GALETTE_RELEASE"
 
@@ -108,6 +109,11 @@ RUN tar jxvf galette-plugin-objectslend-${PLUGIN_OBJECTSLEND_VERSION}.tar.bz2; r
 ### Paypal
 RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-paypal-${PLUGIN_PAYPAL_VERSION}.tar.bz2
 RUN tar jxvf galette-plugin-paypal-${PLUGIN_PAYPAL_VERSION}.tar.bz2; rm galette-plugin-paypal-${PLUGIN_PAYPAL_VERSION}.tar.bz2; mv galette-plugin-paypal-${PLUGIN_PAYPAL_VERSION} plugin-paypal
+
+### Activities
+RUN wget --progress=dot:giga ${PLUGIN_PACKAGE_URL}galette-plugin-activities-${PLUGIN_ACTIVITIES_VERSION}.tar.bz2
+RUN tar jxvf galette-plugin-activities-${PLUGIN_ACTIVITIES_VERSION}.tar.bz2; rm galette-plugin-activities-${PLUGIN_ACTIVITIES_VERSION}.tar.bz2; mv galette-plugin-activities-${PLUGIN_ACTIVITIES_VERSION} plugin-activities
+
 
 # CRON Auto-Reminder
 ## Copy galette-cron file to the cron.d directory
