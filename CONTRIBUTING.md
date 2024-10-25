@@ -71,6 +71,7 @@ Follow the instructions above, but add any or both of these build args to the bu
     --build-arg PLUGIN_MAPS_VERSION=dev \
     --build-arg PLUGIN_OBJECTSLEND_VERSION=dev \
     --build-arg PLUGIN_PAYPAL_VERSION=dev \
+    --build-arg PLUGIN_ACTIVITIES_VERSION=dev \
     --load .
     ```
 
