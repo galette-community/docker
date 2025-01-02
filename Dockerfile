@@ -1,9 +1,9 @@
-ARG PHP_VERSION=8.2
+ARG PHP_VERSION=8.3
 
 # Using PHP-Apache image
 FROM php:${PHP_VERSION}-apache
 ARG PHP_VERSION
-ARG GALETTE_VERSION=1.1.4
+ARG GALETTE_VERSION=1.1.5
 ARG GALETTE_RELEASE=galette-${GALETTE_VERSION}
 
 # Maintained by GrasDK for Galette community
