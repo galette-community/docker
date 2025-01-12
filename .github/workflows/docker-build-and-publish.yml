@@ -17,6 +17,8 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ github.event.release.tag_name }} # Set VERSION from release version
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -39,6 +41,10 @@ jobs:
         with:
           images: galette/galette
 
+      - name: Debug tags
+        run: |
+          echo "Generated tags: ${{ steps.meta.outputs.tags }}"
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5.3.0
         with:
@@ -48,6 +54,8 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            GALETTE_VERSION=${{ env.VERSION }}
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v4
