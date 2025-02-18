@@ -41,7 +41,7 @@ If you are upgrading from an earlier version, you can skip step 1, 2 and 4 below
     -v  /path/to/data/files:/var/www/galette/data/files \
     -v  /path/to/data/logs:/var/www/galette/data/logs \
     -v  /path/to/data/photos:/var/www/galette/data/photos \
-    -v ./path/to/data/templates_c:/var/www/galette/data/templates_c \
+    -v  /path/to/data/templates_c:/var/www/galette/data/templates_c \
     galette/galette:1.1.0
     ```
     Remember to replace `./path/to/` with your own path.
