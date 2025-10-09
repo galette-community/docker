@@ -22,6 +22,25 @@ In steps:
 10. The github action [build and publish](./.github/workflows/docker-build-and-publish.yml), will build and publish the image automatically.
     - Note: [build and publish](./.github/workflows/docker-build-and-publish.yml) uses the username and a personal access token from a docker-hub user with access to the [galette organisation](https://hub.docker.com/orgs/galette/members) on dockerhub. These are both stored as secrets in Github. These tokens should be the current maintainer's.
 
+### Setting up an access token to deploy to docker hub
+Prerequisite is that you are co-admin of galette docker on docker hub: https://hub.docker.com/r/galette/galette
+1. Log in to docker hub
+2. Access your account settings (upper right corner, then "Account settings")
+3. In the navigation menu to the left click "Personal access tokens"
+4. Click "Generate new token"
+5. Give your token a name, e.g. `galette github actions auto-push`
+6. Select Expiration date
+7. Select "Read, Write, Delete"
+8. Click "Generate"
+9. Copy your personal access token (if you don't you have to restart this guide)
+10. Go to https://github.com/galette-community/docker/settings/secrets/actions
+11. Click New repository secret
+12. Name `DOCKERHUB_TOKEN`
+13. Secret must be the code you copied from step 9.
+14. Click New repository secret
+15. Name `DOCKERHUB_User`
+16. Secret must be your docker hub username
+
 ## Building and testing locally
 ### Prerequisites
 - `docker` is installed in your development environment.
