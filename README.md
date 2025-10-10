@@ -39,6 +39,7 @@ If you are upgrading from an earlier version, you can skip step 1, 2 and 4 below
     -v  /path/to/data/attachments:/var/www/galette/data/attachments \
     -v  /path/to/data/cache:/var/www/galette/data/cache \
     -v  /path/to/data/files:/var/www/galette/data/files \
+    -v  /path/to/data/plugins:/var/www/galette/data/plugins \
     -v  /path/to/data/logs:/var/www/galette/data/logs \
     -v  /path/to/data/photos:/var/www/galette/data/photos \
     -v  /path/to/data/templates_c:/var/www/galette/data/templates_c \
