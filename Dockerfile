@@ -42,8 +42,10 @@ ARG TARGETARCH
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Install APT dependencies
+## Debian security updates published after the base image are applied first
 RUN a2enmod rewrite
 RUN apt-get -y update \
+  && apt-get -y upgrade \
   && apt-get install --no-install-recommends -y \
   libfreetype6-dev \
   libicu-dev \
