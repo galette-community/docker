@@ -45,7 +45,6 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN a2enmod rewrite
 RUN apt-get -y update \
   && apt-get install --no-install-recommends -y \
-  wget \
   libfreetype6-dev \
   libicu-dev \
   libjpeg62-turbo-dev \
@@ -93,7 +92,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 ## Galette
 ## bin/console is shipped next to the galette directory, and finds it from its own location
 WORKDIR /usr/src
-RUN wget -q ${MAIN_PACKAGE_URL}${GALETTE_RELEASE}.tar.bz2 \
+RUN curl -fsSLO "${MAIN_PACKAGE_URL}${GALETTE_RELEASE}.tar.bz2" \
  && tar jxf ${GALETTE_RELEASE}.tar.bz2 \
  && mv ${GALETTE_RELEASE}/galette/* ${GALETTE_INSTALL} \
  && mv ${GALETTE_RELEASE}/bin /var/www/bin \
@@ -112,7 +111,7 @@ RUN for plugin in \
     ; do \
       name="${plugin%%:*}"; version="${plugin##*:}"; \
       archive="galette-plugin-${name}-${version}"; \
-      wget -q "${PLUGIN_PACKAGE_URL}${archive}.tar.bz2" \
+      curl -fsSLO "${PLUGIN_PACKAGE_URL}${archive}.tar.bz2" \
       && tar jxf "${archive}.tar.bz2" \
       && rm "${archive}.tar.bz2" \
       && mv "${archive}" "plugin-${name}" \
@@ -128,7 +127,7 @@ RUN case "${TARGETARCH}" in \
       arm) sum="${SUPERCRONIC_SHA1SUM_ARM}" ;; \
       *) echo "Unsupported architecture: ${TARGETARCH}"; exit 1 ;; \
     esac \
- && wget -q -O /usr/local/bin/supercronic \
+ && curl -fsSL -o /usr/local/bin/supercronic \
     "https://github.com/aptible/supercronic/releases/download/${SUPERCRONIC_VERSION}/supercronic-linux-${TARGETARCH}" \
  && echo "${sum}  /usr/local/bin/supercronic" | sha1sum -c - \
  && chmod +x /usr/local/bin/supercronic
