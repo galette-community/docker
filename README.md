@@ -29,20 +29,20 @@ This docker image has no included database, so you need to have that separately.
 
 ## How to use this image using docker command line
 
-Galette has a really nice installer, that runs you through database setup and initial admin user creation. The installer creates a configuration file in the `config` folder, which you should keep on a volume outside the docker image, for reuse when you upgrade to a newer version. You also have the option to create files for advanced configuration in the same `config` folder (see step 6).
+Galette has a really nice installer, that runs you through database setup and initial admin user creation. The installer creates a configuration file in the `config` folder, which you should keep on a volume outside the docker image, for reuse when you upgrade to a newer version. You also have the option to create files for advanced configuration in the same `config` folder (see step 7).
 
 Therefore it is really important that you follow this guide exactly.
 
 > [!IMPORTANT]
 > Owner is the `www-data` user of the base image. UID is `33` on Debian; you can check using `docker run --rm --entrypoint id galette/galette:1.3.0 www-data`
 
-If you are upgrading from an earlier version, you can skip step 1, 2 and 4 below.
+If you are upgrading from an earlier version, you can skip step 1, 2, 4 and 5 below.
 
 1. Create folders corresponding to all the volumes in the next step, and give them to `www-data` (uid and gid 33), which runs Apache and the console in the container; otherwise Galette cannot write its configuration file nor its data.
     ```
     sudo chown -R 33:33 /path/to/config /path/to/data
     ```
-2. Optional: Create a file `config.inc.php` in the `config` folder. You can also copy [this](.example/config/config.inc.php) and alter it to suit your configuration. You can put in your database details up front, or wait until step 4.
+2. Optional: Create a file `config.inc.php` in the `config` folder. You can also copy [this](.example/config/config.inc.php) and alter it to suit your configuration. You can put in your database details up front, or wait until step 5.
 3. Start a container with the version of galette you want (e.g. 1.3.0) and the proper list of volumes.
     ```
     docker run  -d -p 8080:80 --name galette \
@@ -62,7 +62,12 @@ If you are upgrading from an earlier version, you can skip step 1, 2 and 4 below
     ```
     Remember to replace `./path/to/` with your own path.
 
-4. Run the installer: Open a browser to http://\<ip or server name\>:8080/installer.php, e.g. [http://localhost:8080/installer.php](http://localhost:8080/installer.php) and follow the instructions.
+4. Allow the web installer to run: since Galette 1.3.0, it only opens while an `ENABLE_INSTALL` file exists in the data directory, and Galette removes that file once the installation succeeds:
+    ```
+    docker exec galette touch /var/www/galette/data/ENABLE_INSTALL
+    ```
+    You can also install from the command line instead, see [Command line](#command-line).
+5. Run the installer: Open a browser to http://\<ip or server name\>:8080/installer.php, e.g. [http://localhost:8080/installer.php](http://localhost:8080/installer.php) and follow the instructions.
     - Remember your database details, as you will need them in this process.
 
     You're done!
@@ -71,11 +76,11 @@ If you are upgrading from an earlier version, you can skip step 1, 2 and 4 below
 
     `docker exec galette cat /var/www/galette/config/config.inc.php`
 
-5. As a security precaution, you should delete the galette installation files **after** you finished installing or upgrading. Replace `galette` with the actual container name, if you changed that in the commands above.
+6. As a security precaution, you should delete the galette installation files **after** you finished installing or upgrading. Replace `galette` with the actual container name, if you changed that in the commands above.
 
     `docker exec galette rm -r /var/www/galette/install`
 
-6. Advanced configuration:
+7. Advanced configuration:
 
     - To change some default behavior of Galette, add `behavior.inc.php` to your `config` folder (same folder as `config.inc.php`). You can start with a copy of [this file](./.example/config/behavior.inc.php). You can change most things listed [here](https://doc.galette.eu/en/master/usermanual/avancee.html#behavior), among them:
         - session timeout
@@ -112,12 +117,13 @@ For example, `galette:install` can replace the web installer, and `galette:plugi
 2. Optionally edit the values in `.env`
 3. Create a `config` folder and optionally add a `config.inc.php` file to that folder. You can copy the one from [here](.example/config/config.inc.php) and adjust it. Create the `data` folders as well, and give both to `www-data` (uid and gid 33), as Docker would otherwise create missing folders as root: `sudo chown -R 33:33 ./galette/config ./galette/data` (adapt to `GALETTE_DATA_DIR`).
 4. Launch with `docker-compose up -d`
-5. Go to http://localhost:8080/installer.php and complete installation (database, etc).
+5. Allow the web installer to run (see above): `docker compose exec galette touch /var/www/galette/data/ENABLE_INSTALL`
+6. Go to http://localhost:8080/installer.php and complete installation (database, etc).
     - Note that http://localhost:8080 will report a failure, but adding /installer will work.
 
 You're done.
 
-5. See above for deleting the install folder, advanced configuration and plugin configuration! In the docker compose example file, there are commented out lines for the css volume.
+7. See above for deleting the install folder, advanced configuration and plugin configuration! In the docker compose example file, there are commented out lines for the css volume.
 
 ## How to use this image AND a mariadb image using Docker Compose
 1. Copy [`docker-compose/galette-and-mariadb/docker-compose.yml`](docker-compose/galette-and-mariadb/docker-compose.yml) and [`docker-compose/galette-and-mariadb/.env`](docker-compose/galette-and-mariadb/.env) to the folder, where you want to persist your configuration.
