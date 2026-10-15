@@ -41,11 +41,22 @@ ARG TARGETARCH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Install APT dependencies
-## Debian security updates published after the base image are applied first
 RUN a2enmod rewrite
+
+# Install, Configure and Enable PHP extensions, in a single layer
+## Debian security updates published after the base image are applied first.
+## Headers and compilers are only needed to build the extensions: once built,
+## only the libraries they link against are kept, and the compilers the base
+## image ships for phpize go too. They accounted for most of the CVEs scanners
+## report on the image, linux-libc-dev alone for two thirds of them.
+## libc6-dev is named apart: PHPIZE_DEPS asks for the virtual libc-dev.
+## opcache is always built in since PHP 8.5
+## SC2016: the single-quoted $ belong to awk and php, not to the shell
+# hadolint ignore=SC2016
 RUN apt-get -y update \
   && apt-get -y upgrade \
+  && apt-get install --no-install-recommends -y bzip2 tzdata \
+  && savedAptMark="$(apt-mark showmanual)" \
   && apt-get install --no-install-recommends -y \
   libfreetype6-dev \
   libicu-dev \
@@ -53,18 +64,26 @@ RUN apt-get -y update \
   libpng-dev \
   libwebp-dev \
   libpq-dev \
-  tzdata \
+  && docker-php-ext-install "-j$(nproc)" gettext intl \
+  && { php -m | grep -q "Zend OPcache" || docker-php-ext-install opcache; } \
+  && docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql \
+  && docker-php-ext-enable mysqli \
+  && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ --with-webp=/usr/include/ \
+  && docker-php-ext-install "-j$(nproc)" gd \
+  && apt-mark auto '.*' > /dev/null \
+  && printf '%s\n' "$savedAptMark" | xargs -r apt-mark manual > /dev/null \
+  && printf '%s\n' "$PHPIZE_DEPS" libc6-dev | xargs -r apt-mark auto > /dev/null \
+  && find "$(php-config --extension-dir)" -name '*.so' -exec ldd '{}' ';' \
+    | awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); printf "*%s\n", so }' \
+    | sort -u \
+    | xargs -r dpkg-query --search \
+    | cut -d: -f1 \
+    | sort -u \
+    | xargs -r apt-mark manual > /dev/null \
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && php -r 'foreach (["gd", "intl", "gettext", "mysqli", "pdo_mysql", "pdo_pgsql", "Zend OPcache"] as $e) { extension_loaded($e) || exit(1); }' \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
-
-# Install, Configure and Enable PHP extensions
-## opcache is always built in since PHP 8.5
-RUN docker-php-ext-install "-j$(nproc)" gettext intl && \
-  { php -m | grep -q "Zend OPcache" || docker-php-ext-install opcache; } && \
-  docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql && \
-  docker-php-ext-enable mysqli && \
-  docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ --with-webp=/usr/include/ && \
-  docker-php-ext-install "-j$(nproc)" gd
 
 # Enabling apache vhost
 COPY vhost.conf /etc/apache2/sites-available/vhost.conf
